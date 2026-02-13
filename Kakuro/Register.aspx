@@ -6,7 +6,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet" />
+        rel="stylesheet" />
 
 </head>
 
@@ -30,12 +30,11 @@
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-                                Authentication
+                            <a class="nav-link dropdown-toggle active" role="button" data-bs-toggle="dropdown">Authentication
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="">Login</a></li>
-                                <li><a class="dropdown-item" href="">Register</a></li>
+                                <li><a class="dropdown-item" href="Login.aspx">Login</a></li>
+                                <li><a class="dropdown-item" href="Register.aspx">Register</a></li>
                             </ul>
                         </li>
 
@@ -52,7 +51,7 @@
                     <div class="card shadow">
                         <div class="card-body p-4">
 
-                            <h3 class="text-center mb-4">Create an Account</h3>
+                            <h3 class="text-center mb-4">Register an Account</h3>
 
                             <!--Email-->
                             <div class="mb-3">
@@ -60,7 +59,7 @@
                                 <asp:TextBox ID="txtEmail" runat="server"
                                     CssClass="form-control"
                                     TextMode="Email"
-                                    placeholder="Enter email" />
+                                    placeholder="Enter Email" />
                             </div>
 
                             <!--Username-->
@@ -68,7 +67,7 @@
                                 <label class="form-label">Username:</label>
                                 <asp:TextBox ID="txtUsername" runat="server"
                                     CssClass="form-control"
-                                    placeholder="Enter username" />
+                                    placeholder="Enter Username" />
                             </div>
 
                             <!--Password-->
@@ -77,7 +76,7 @@
                                 <asp:TextBox ID="txtPassword" runat="server"
                                     CssClass="form-control"
                                     TextMode="Password"
-                                    placeholder="Enter password" />
+                                    placeholder="Enter Password" />
                             </div>
 
                             <!--Confirm Password-->
@@ -86,8 +85,11 @@
                                 <asp:TextBox ID="txtConfirmPassword" runat="server"
                                     CssClass="form-control"
                                     TextMode="Password"
-                                    placeholder="Confirm password" />
+                                    placeholder="Confirm Password" />
                             </div>
+
+                            <!--Error Message-->
+                            <asp:Label ID="lblError" runat="server" />
 
                             <!--Register Button-->
                             <div class="d-grid">
@@ -96,6 +98,13 @@
                                     Text="Register"
                                     CssClass="btn btn-primary"
                                     OnClick="btnRegister_Click" />
+                            </div>
+
+                            <!--Login Link-->
+                            <div class="text-center mt-3">
+                                <small>
+                                    <a href="Login.aspx">Already have an account? Login here!</a>
+                                </small>
                             </div>
 
                         </div>
