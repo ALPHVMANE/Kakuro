@@ -51,9 +51,9 @@ namespace Kakuro.Model
         public List<SumSegment> HorizontalSegments { get => horizontalSegments; set => horizontalSegments = value; }
         public List<SumSegment> VerticalSegments { get => verticalSegments; set => verticalSegments = value; }
 
-        private int calculateScore() { 
-            //Coming Soon...
-        }
+        //private int calculateScore() { 
+        //    //Coming Soon...
+        //}
 
     }
     public class SumSegment
