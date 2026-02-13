@@ -20,7 +20,7 @@ namespace Kakuro.Model
             this.username = username;
             this.password = password;
             this.score = 0;
-            this.rank = CalculateRank();
+            //this.rank = CalculateRank();
             this.levelsCompleted = 0;
 
         }
@@ -42,9 +42,9 @@ namespace Kakuro.Model
         public int Rank { get => rank; set => rank = value; }
         public int LevelsCompleted { get => levelsCompleted; set => levelsCompleted = value; }
 
-        private int CalculateRank()
-        {
-            //Coming Soon....
-        }
+        //private int CalculateRank()
+        //{
+        //    //Coming Soon....
+        //}
     }
 }
