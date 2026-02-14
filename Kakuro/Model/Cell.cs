@@ -7,55 +7,49 @@ namespace Kakuro.Model
 {
     public abstract class Cell
     {
-        private int x;
-        private int y;
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Cell(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
-
-        public int X { get => x; set => x = value; }
-        public int Y { get => y; set => y = value; }
-
     }
 
     public class Clue : Cell
     {
-        private int? horizontalSumClue;
-        private int? verticalSumClue;
+        public int? HorizontalSumClue { get; set; }
+        public int? VerticalSumClue { get; set; }
 
-        public Clue(int x, int y, int? horizontalSumClue, int? verticalSumClue) : base(x, y)
+        public Clue(int x, int y, int? horizontalSum, int? verticalSum) : base(x, y)
         {
-            this.horizontalSumClue = horizontalSumClue;
-            this.verticalSumClue = verticalSumClue;
+            this.HorizontalSumClue = horizontalSum;
+            this.VerticalSumClue = verticalSum;
         }
-
-        public int? HorizontalSumClue { get => horizontalSumClue; set => horizontalSumClue = value; }
-        public int? VerticalSumClue { get => verticalSumClue; set => verticalSumClue = value; }
     }
 
     public class Entry : Cell
     {
-        private int? currentValue;
-        private int correctValue; // validation check
+        public int? CurrentValue { get; set;} 
+        public int CorrectValue { get; set;}
 
-        public Entry(int x, int y, int? currentValue, int correctValue) : base(x, y)
+        // Logic helper: Check if the user's input is right
+        public bool IsCorrect => CurrentValue == CorrectValue;
+
+        public Entry(int x, int y, int correctValue) : base(x, y)
         {
-            this.currentValue = currentValue;
-            this.correctValue = correctValue;
-        }
-
-        public int? CurrentValue { get => currentValue; set => currentValue = value; }
-        public int CorrectValue { get => correctValue; set => correctValue = value; }
-    }
-
-    public class Blacked : Cell
-    {
-        public Blacked(int x, int y) : base(x, y)
-        {
+            this.CorrectValue = correctValue;
+            this.CurrentValue = null; // Initially empty
         }
     }
+
+    public class Empty : Cell 
+    { 
+        public Empty(int x, int y) : base(x, y)
+        {
+        }
+    }
+
 
 }

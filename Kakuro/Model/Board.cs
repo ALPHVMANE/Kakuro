@@ -7,78 +7,72 @@ namespace Kakuro.Model
 {
     public class Board
     {
+        public int Id { get; set; }
+        public int Score { get; set; }
+        public int SizeX { get; set; }
+        public int SizeY { get; set; }
+        public int Difficulty { get; set; }
+        public Cell[,] Grid { get; set; }
 
-        private int id;
-        private int score;
-        private int sizeX;
-        private int sizeY;
-        private int difficulty;
-        private Cell[,] grid;
+        public List<SumSegment> HorizontalSegments { get; set; }
+        public List<SumSegment> VerticalSegments { get; set; }
 
-        private List<SumSegment> horizontalSegments;
-        private List<SumSegment> verticalSegments;
-
-        public Board(int id, int sizeX, int sizeY, int difficulty, Cell[,] grid, List<SumSegment> horSeg, List<SumSegment> verticalSegments)
+        // Single flexible constructor using optional parameters
+        public Board(int id, int sizeX, int sizeY, int difficulty, Cell[,] grid,
+                     List<SumSegment> horSeg = null, List<SumSegment> verSeg = null, int score = 0)
         {
-            this.id = id;
-            this.score = 0;
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
-            this.difficulty = difficulty;
-            this.grid = grid;
-            this.horizontalSegments = horSeg;
-            this.verticalSegments = verticalSegments;
+            Id = id;
+            SizeX = sizeX;
+            SizeY = sizeY;
+            Difficulty = difficulty;
+            Grid = grid;
+            Score = score;
+            HorizontalSegments = horSeg ?? new List<SumSegment>();
+            VerticalSegments = verSeg ?? new List<SumSegment>();
         }
 
-        public Board(int id, int score, int sizeX, int sizeY, int difficulty, Cell[,] grid, List<SumSegment> horSeg, List<SumSegment> verticalSegments)
+        // Example of a computed property for scoring
+        public int CalculatedScore => CalculateScore();
+
+        private int CalculateScore()
         {
-            this.id = id;
-            this.score = score;
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
-            this.difficulty = difficulty;
-            this.grid = grid;
-            this.horizontalSegments = horSeg;
-            this.verticalSegments = verticalSegments;
+            // Logic here
+            return 0;
         }
-
-        public int Id { get => id; set => id = value; }
-        public int Score { get => score; set => score = value; }
-        public int SizeX { get => sizeX; set => sizeX = value; }
-        public int SizeY { get => sizeY; set => sizeY = value; }
-        public int Difficulty { get => difficulty; set => difficulty = value; }
-        public Cell[,] Grid { get => grid; set => grid = value; }
-        public List<SumSegment> HorizontalSegments { get => horizontalSegments; set => horizontalSegments = value; }
-        public List<SumSegment> VerticalSegments { get => verticalSegments; set => verticalSegments = value; }
-
-        //private int calculateScore() { 
-        //    //Coming Soon...
-        //}
-
     }
+
     public class SumSegment
     {
         public int TargetSum { get; set; }
-        // Change List<Cell> to List<Entry>
         public List<Entry> Entries { get; set; }
 
         public SumSegment(int targetSum, List<Entry> entries)
         {
-            this.TargetSum = targetSum;
-            this.Entries = entries;
+            TargetSum = targetSum;
+            Entries = entries;
         }
 
+        /// <summary>
+        /// Validates segment logic: no duplicates, sum under target, and exact match if full.
+        /// </summary>
         public bool IsValid()
         {
-            // Now 'e' is recognized as an Entry, so CurrentValue works!
             var values = Entries
-                .Where(e => e.CurrentValue.HasValue)
-                .Select(e => e.CurrentValue.Value)
+                .Select(e => e.CurrentValue)
+                .Where(v => v.HasValue)
+                .Cast<int>()
                 .ToList();
 
+            // 1. Check for duplicates
             if (values.Count != values.Distinct().Count()) return false;
-            if (values.Sum() > TargetSum) return false;
-            if (values.Count == Entries.Count && values.Sum() != TargetSum) return false;
+
+            var currentSum = values.Sum();
+
+            // 2. Cannot exceed target
+            if (currentSum > TargetSum) return false;
+
+            // 3. If all cells filled, must equal target
+            if (values.Count == Entries.Count && currentSum != TargetSum) return false;
 
             return true;
         }
