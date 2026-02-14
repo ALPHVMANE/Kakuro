@@ -11,7 +11,6 @@ namespace Kakuro.Model
         private string username;
         private string password;
         private int score;
-        private int rank;
         private int levelsCompleted;
 
         public User(string email, string username, string password)
@@ -19,19 +18,16 @@ namespace Kakuro.Model
             this.email = email;
             this.username = username;
             this.password = password;
-            this.score = 0;
-            this.rank = CalculateRank();
+            this.score = 0; 
             this.levelsCompleted = 0;
-
         }
 
-        public User(string username, string email, string password, int score, int rank, int levelsCompleted)
+        public User(string username, string email, string password, int score, int levelsCompleted)
         {
             this.username = username;
             this.email = email;
             this.password = password;
             this.score = score;
-            this.rank = rank;
             this.levelsCompleted = levelsCompleted;
         }
 
@@ -39,12 +35,11 @@ namespace Kakuro.Model
         public string Username { get => username; set => username = value; }
         public string Password { get => password; set => password = value; }
         public int Score { get => score; set => score = value; }
-        public int Rank { get => rank; set => rank = value; }
         public int LevelsCompleted { get => levelsCompleted; set => levelsCompleted = value; }
 
-        private int CalculateRank()
-        {
-            //Coming Soon....
-        }
+        //private int CalculateRank()
+        //{
+        //    //Coming Soon....
+        //}
     }
 }
