@@ -6,7 +6,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet" />
+        rel="stylesheet" />
 
 </head>
 
@@ -14,37 +14,75 @@
 
     <form id="form1" runat="server">
 
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand text-decoration-underline">Kakuro</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
+        <!--Register-->
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
 
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="">Home</a>
-                        </li>
+                    <div class="card shadow">
+                        <div class="card-body p-4">
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Authentication
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="">Login</a></li>
-                                <li><a class="dropdown-item" href="">Register</a></li>
-                            </ul>
-                        </li>
+                            <h3 class="text-center mb-4">Register an Account</h3>
 
-                    </ul>
+                            <!--Email-->
+                            <div class="mb-3">
+                                <label class="form-label">Email address:</label>
+                                <asp:TextBox ID="txtEmail" runat="server"
+                                    CssClass="form-control"
+                                    TextMode="Email"
+                                    placeholder="Enter Email" />
+                            </div>
+
+                            <!--Username-->
+                            <div class="mb-3">
+                                <label class="form-label">Username:</label>
+                                <asp:TextBox ID="txtUsername" runat="server"
+                                    CssClass="form-control"
+                                    placeholder="Enter Username" />
+                            </div>
+
+                            <!--Password-->
+                            <div class="mb-3">
+                                <label class="form-label">Password:</label>
+                                <asp:TextBox ID="txtPassword" runat="server"
+                                    CssClass="form-control"
+                                    TextMode="Password"
+                                    placeholder="Enter Password" />
+                            </div>
+
+                            <!--Confirm Password-->
+                            <div class="mb-3">
+                                <label class="form-label">Confirm Password:</label>
+                                <asp:TextBox ID="txtConfirmPassword" runat="server"
+                                    CssClass="form-control"
+                                    TextMode="Password"
+                                    placeholder="Confirm Password" />
+                            </div>
+
+                            <!--Error Message-->
+                            <asp:Label ID="lblError" runat="server" />
+
+                            <!--Register Button-->
+                            <div class="d-grid">
+                                <asp:Button ID="btnRegister"
+                                    runat="server"
+                                    Text="Register"
+                                    CssClass="btn btn-primary"
+                                    OnClick="btnRegister_Click" />
+                            </div>
+
+                            <!--Login Link-->
+                            <div class="text-center mt-3">
+                                <small>
+                                    <a href="Login.aspx">Already have an account? Login here!</a>
+                                </small>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </nav>
-
-        <div>
         </div>
 
     </form>

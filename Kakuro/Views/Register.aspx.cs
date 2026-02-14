@@ -11,7 +11,12 @@ namespace Kakuro
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            lblError.Visible = false;
+        }
+
+        protected void btnRegister_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Login.aspx");
         }
     }
 }
