@@ -51,10 +51,6 @@ namespace Kakuro.Model
             TargetSum = targetSum;
             Entries = entries;
         }
-
-        /// <summary>
-        /// Validates segment logic: no duplicates, sum under target, and exact match if full.
-        /// </summary>
         public bool IsValid()
         {
             var values = Entries
