@@ -32,13 +32,12 @@ namespace Kakuro.Model
         }
 
         // Example of a computed property for scoring
-        public int CalculatedScore => CalculateScore();
+//         public int CalculatedScore => CalculateScore();
 
-        private int CalculateScore()
-        {
-            // Logic here
-            return 0;
-        }
+        //private int calculateScore() { 
+        //    //Coming Soon...
+        //}
+
     }
 
     public class SumSegment
