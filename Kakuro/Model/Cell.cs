@@ -19,13 +19,13 @@ namespace Kakuro.Model
 
     public class Clue : Cell
     {
-        public int? HorizontalSumClue { get; set; }
-        public int? VerticalSumClue { get; set; }
+        public int? HorizontalClue { get; set; }
+        public int? VerticalClue { get; set; }
 
         public Clue(int x, int y, int? horizontalSum, int? verticalSum) : base(x, y)
         {
-            this.HorizontalSumClue = horizontalSum;
-            this.VerticalSumClue = verticalSum;
+            this.HorizontalClue = horizontalSum;
+            this.VerticalClue = verticalSum;
         }
     }
 

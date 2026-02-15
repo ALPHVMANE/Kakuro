@@ -148,6 +148,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Views\Leaderboard.aspx" />
+    <Content Include="Views\Levels.aspx" />
     <Content Include="Views\Login.aspx" />
     <Content Include="Views\Register.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -250,6 +251,13 @@
     </Compile>
     <Compile Include="Views\Leaderboard.aspx.designer.cs">
       <DependentUpon>Leaderboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Levels.aspx.cs">
+      <DependentUpon>Levels.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Levels.aspx.designer.cs">
+      <DependentUpon>Levels.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
