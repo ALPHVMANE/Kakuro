@@ -1,20 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/Site.Master" CodeBehind="Login.aspx.cs" Inherits="Kakuro.Login" %>
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>Login</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet" />
-</head>
-
-<body>
-
-    <form id="form1" runat="server">
-
+<asp:Content ID="LoginBody" ContentPlaceHolderID="MainContent" runat="server">
         <!--Login-->
         <div class="container mt-5">
             <div class="row justify-content-center">
@@ -72,11 +59,5 @@
                 </div>
             </div>
         </div>
+</asp:Content>
 
-    </form>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>

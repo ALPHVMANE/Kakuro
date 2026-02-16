@@ -1,20 +1,13 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Register.aspx.cs" Inherits="Kakuro.Register" %>
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet" />
-</head>
-<body>
 
-    <form id="form1" runat="server">
+
+<asp:Content ID="RegisterBody" ContentPlaceHolderID="MainContent" runat="server">
         <!--Register-->
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
-
+                        
                     <div class="card shadow">
                         <div class="card-body p-4">
                                 
@@ -78,9 +71,5 @@
                 </div>
             </div>
         </div>
-    </form>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+</asp:Content>
+ 
