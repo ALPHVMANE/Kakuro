@@ -1,21 +1,26 @@
-﻿<asp:GridView runat="server"></asp:GridView>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Gameplay.aspx.cs" Inherits="Kakuro.Gameplay" %>
 
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Gameplay.aspx.cs" Inherits="Kakuro.Gameplay" %>
+<asp:Content ID="GameplayContent" ContentPlaceHolderID="MainContent" runat="server">
 
-<!DOCTYPE html>
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-        </div>
-        <asp:GridView ID="GridView1" runat="server"></asp:GridView>
-        <asp:Button ID="btnCheckSolution" runat="server" Text="Check" OnClick="btnCheckSolution_Click" />
-        <asp:Button ID="btnReset" runat="server" Text=Reset" OnClick="btnReset_Click" />
-        <asp:Label ID="lblMessage" runat="server" Text="" />
-    </form>
-</body>
-</html>
+    <asp:UpdatePanel ID="upPuzzle" runat="server"> <%--Update Panel => timer--%>
+        <ContentTemplate>
+            <%-- <asp:Timer ID="timerPuzzle" runat="server" OnTick="timerPuzzle_Tick" Interval="1000" />
+            <asp:Label ID="TimeLabel" runat="server" CssClass="h4" Text="Time Elapsed: 0 seconds" />--%>
+            
+            <hr />
+                <asp:Table ID="KakuroTable" runat="server" CssClass="table table-bordered text-center kakuro-grid">
+                </asp:Table>
+            </div>
+            
+            <div class="mt-3">
+                <asp:Button ID="CheckSolutionButton" runat="server" Text="Check Solution" 
+                    CssClass="btn btn-primary" OnClick="btnCheckSolution_Click" />
+                <asp:Label ID="ResultLabel" runat="server" CssClass="ml-3 font-weight-bold" Text=""/>
+            </div>
+
+        </ContentTemplate>
+
+    </asp:UpdatePanel> 
+</asp:Content>
