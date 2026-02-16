@@ -11,14 +11,14 @@ namespace Kakuro.Model
         public int Score { get; set; }
         public int SizeX { get; set; }
         public int SizeY { get; set; }
-        public int Difficulty { get; set; }
+        public string Difficulty { get; set; }
         public Cell[,] Grid { get; set; }
 
         public List<SumSegment> HorizontalSegments { get; set; }
         public List<SumSegment> VerticalSegments { get; set; }
 
         // Single flexible constructor using optional parameters
-        public Board(int id, int sizeX, int sizeY, int difficulty, Cell[,] grid,
+        public Board(int id, int sizeX, int sizeY, string difficulty, Cell[,] grid,
                      List<SumSegment> horSeg = null, List<SumSegment> verSeg = null, int score = 0)
         {
             Id = id;

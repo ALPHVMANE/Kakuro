@@ -1,6 +1,7 @@
 ﻿using Kakuro.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -11,35 +12,36 @@ namespace Kakuro
 {
     public partial class Gameplay : System.Web.UI.Page
     {
-        protected SqlConnection conn;
+        private SqlConnection conn;
+        private Board board;
 
-        protected Board board;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                int boardID = Convert.ToInt32(Request.QueryString["BoardId"]);
+                //int boardID = (int)Session["boardId"];
+                int boardID = 25; // Temporary hardcoded for testing, replace with session value when ready
                 conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True"));
 
-                conn.Open();
                 board = FetchBoard(boardID);
+
 
                 if (board != null)
                 {
                     Session["CurrentBoard"] = board;
-                    GenerateGrid(board);
+                    GenerateGrid();
 
                     //timerPuzzle.Enabled = true;
                     Session["ElapsedTime"] = 0;
                 }
 
-                GenerateGrid(board);
+                GenerateGrid();
             }
             else
             {
                 if (Session["CurrentBoard"] == board)
                 {
-                    GenerateGrid(board);
+                    GenerateGrid();
                 }
             }
         }
@@ -77,15 +79,16 @@ namespace Kakuro
             ResultLabel.ForeColor = isValid ? System.Drawing.Color.Green : System.Drawing.Color.Red;
         }
 
-        private void GenerateGrid(Board board)
+        private void GenerateGrid()
         {
             KakuroTable.Rows.Clear();
-            for (int i = 0; i < board.SizeY; i++)
+            for (int i = 0; i < this.board.SizeY; i++)
             {
                 TableRow row = new TableRow();
                 for (int j = 0; j < board.SizeX; j++)
                 {
                     TableCell tableCell = new TableCell();
+                    var test = board.Grid[j, i].GetType().Name;
 
                     if (board.Grid[j, i].GetType().Name == "Entry")
                     {
@@ -116,70 +119,112 @@ namespace Kakuro
 
         public Board FetchBoard(int bID)
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Board WHERE Id = @bID", conn);
-            cmd.Parameters.AddWithValue("@bID", bID);
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            
-            if (!reader.Read())
+            using (conn)
             {
-                conn.Close();
-                return null;
+                conn.Open();
+
+                // 1. Get Board metadata first
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM Board WHERE Id = @bID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@bID", bID);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    
+                    if (!reader.Read())
+                    {
+                        return null;
+                    }
+
+                    int sizeX = (int)reader["SizeX"];
+                    int sizeY = (int)reader["SizeY"];
+                    string difficulty = (string)reader["Difficulty"];
+                    int score = (int)reader["Score"];
+                    var grid = new Cell[sizeX, sizeY];
+                    reader.Close();
+                    var horSeg = new List<SumSegment>();
+                    var verSeg = new List<SumSegment>();
+
+                    FetchCells(bID, grid, horSeg, verSeg);
+                    ;
+                    DisplayGridInConsole(grid,  sizeX,  sizeY);
+
+                    return new Board(bID, sizeX, sizeY, difficulty, grid, horSeg, verSeg, score);
+                    
+                }
             }
-            int sizeX = (int)reader["Width"];
-            int sizeY = (int)reader["Height"];
-            int difficulty = (int)reader["Difficulty"];
-            int score = (int)reader["Score"];
+        }
 
-            var grid = new Cell[sizeX, sizeY];
-            var horSeg = new List<SumSegment>();
-            var verSeg = new List<SumSegment>();
+        private void DisplayGridInConsole(Cell[,] grid, int sizeX, int sizeY)
+        {
+            Console.WriteLine("\n--- Kakuro Board Display ---");
+            for (int y = 0; y < sizeY; y++)
+            {
+                for (int x = 0; x < sizeX; x++)
+                {
+                    Cell cell = grid[x, y];
 
-            FetchCells(bID, grid, horSeg, verSeg);
-
-            return new Board(bID, sizeX, sizeY, difficulty, grid, horSeg, verSeg, score);
+                    if (cell is Entry entry)
+                    {
+                        // Print the correct value (or a dot if you want to represent a blank)
+                        Console.Write($"[{entry.CorrectValue}] ");
+                    }
+                    else if (cell is Clue clue)
+                    {
+                        // Print 'C' for Clue
+                        Console.Write($"[ {clue.HorizontalClue} / {clue.VerticalClue} ] ");
+                    }
+                    else
+                    {
+                        // Print 'X' for Empty/Black blocks
+                        Console.Write("[ X ] ");
+                    }
+                }
+                Console.WriteLine(); // New line after each row
+            }
+            Console.WriteLine("---------------------------\n");
         }
 
         private void FetchCells(int bID, Cell[,] grid, List<SumSegment> horSeg, List<SumSegment> verSeg)
         {
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Cells WHERE BoardId = @PuzzleId", conn);
-            cmd.Parameters.AddWithValue("@PuzzleId", bID);
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqlCommand cmd2 = new SqlCommand("SELECT * FROM Cells WHERE BoardId = @PuzzleId", conn))
             {
-                int x = (int)reader["X"];
-                int y = (int)reader["Y"];
-                string cellType = (string)reader["CellType"];
-                int? correctValue = (int?)reader["CorrectValue"] ?? null;
-                int? horizontalClue = (int?)reader["HorizontalClueValue"] ?? null;
-                int? verticalClue = (int?)reader["VerticalClueValue"] ?? null;
+                cmd2.Parameters.AddWithValue("@PuzzleId", bID);
+                using (SqlDataReader reader2 = cmd2.ExecuteReader())
+                {
+                    while (reader2.Read())
+                    {
+                        int x = (int)reader2["X"];
+                        int y = (int)reader2["Y"];
+                        string cellType = (string)reader2["CellType"];
+                        int? correctValue = reader2["CorrectValue"] == DBNull.Value ? null : (int?)reader2["CorrectValue"];
+                        int? horizontalClue = reader2["HorizontalClueValue"] == DBNull.Value ? null : (int?)reader2["HorizontalClueValue"];
+                        int? verticalClue = reader2["VerticalClueValue"] == DBNull.Value ? null : (int?)reader2["VerticalClueValue"];
 
-                if (cellType == "Entry")
-                {
-                    grid[x, y] = new Entry(x, y, correctValue ?? 0);
-                }
-                else if (cellType == "Clue")
-                {
-                    grid[x, y] = new Clue(x, y, horizontalClue ?? null, verticalClue ?? null);
-                }
-                else
-                {
-                    grid[x, y] = new Empty(x, y);
-                }
+                        if (cellType == "Entry")
+                        {
+                            grid[x, y] = new Entry(x, y, correctValue ?? 0);
+                        }
+                        else if (cellType == "Clue")
+                        {
+                            grid[x, y] = new Clue(x, y, horizontalClue, verticalClue);
+                        }
+                        else
+                        {
+                            grid[x, y] = new Empty(x, y);
+                        }
 
-                // Populate segments
-                if (horizontalClue.HasValue)
-                {
-                    horSeg.Add(new SumSegment(horizontalClue.Value, new List<Entry>()));
-                }
-                if (verticalClue.HasValue)
-                {
-                    verSeg.Add(new SumSegment(verticalClue.Value, new List<Entry>()));
+
+                        if (horizontalClue.HasValue)
+                        {
+                            horSeg.Add(new SumSegment(horizontalClue.Value, new List<Entry>()));
+                        }
+                        if (verticalClue.HasValue)
+                        {
+                            verSeg.Add(new SumSegment(verticalClue.Value, new List<Entry>()));
+                        }
+                    }
                 }
             }
-            
         }
 
 
