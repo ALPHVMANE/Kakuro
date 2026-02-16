@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Views/Site.Master" CodeBehind="Register.aspx.cs" Inherits="Kakuro.Register" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Register.aspx.cs" Inherits="Kakuro.Register" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -17,7 +17,7 @@
 
                     <div class="card shadow">
                         <div class="card-body p-4">
-
+                                
                             <h3 class="text-center mb-4">Register an Account</h3>
 
                             <!--Email-->

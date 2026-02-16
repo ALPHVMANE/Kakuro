@@ -17,8 +17,6 @@ namespace Kakuro
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
                 //int boardID = (int)Session["boardId"];
                 int boardID = 25; // Temporary hardcoded for testing, replace with session value when ready
                 conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True"));
@@ -36,19 +34,16 @@ namespace Kakuro
                 }
 
                 GenerateGrid();
-            }
-            else
-            {
-                if (Session["CurrentBoard"] == board)
-                {
-                    GenerateGrid();
-                }
-            }
         }
 
-        protected void btnCheckSolution_Click(object sender, EventArgs e)
+        //public bool ValidateSolution(Board board, int[,] userInput)
+        //{
+        //    return board.HorizontalSegments.All(segment => segment.IsValid()) &&
+        //           board.VerticalSegments.All(segment => segment.IsValid());
+        //} ==> For rng tables
+
+        protected void btnCheckSolution_Click(object sender, EventArgs e) //Checks for non-dynamic puzzles only
         {
-            Board board = (Board)Session["CurrentBoard"];
             int[,] userSolution = new int[board.SizeX, board.SizeY];
 
             for (int i = 0; i < board.SizeY; i++)
@@ -60,23 +55,23 @@ namespace Kakuro
                         string cellId = $"cell_{j}_{i}";
                         // Search inside the KakuroTable for the control
                         TextBox textBox = (TextBox)KakuroTable.FindControl(cellId);
+                        var cell = (Entry)board.Grid[j, i];
 
-                        if (textBox != null && int.TryParse(textBox.Text, out int value))
+                        if (textBox != null && textBox.Text == Convert.ToString(cell.CorrectValue))
                         {
-                            userSolution[j, i] = value;
+                            ResultLabel.Text = "Solution is correct!";
+                            ResultLabel.ForeColor = System.Drawing.Color.Green;
+
                         }
                         else
                         {
-                            userSolution[j, i] = 0; // Default for empty/invalid
+                            ResultLabel.Text = "Solution is incorrect. Try again!";
+                            ResultLabel.ForeColor = System.Drawing.Color.Red;
+                            textBox.BackColor = System.Drawing.Color.LightPink;
                         }
                     }
                 }
             }
-
-            bool isValid = ValidateSolution(board, userSolution);
-
-            ResultLabel.Text = isValid ? "Solution is correct!" : "Solution is incorrect. Try again!";
-            ResultLabel.ForeColor = isValid ? System.Drawing.Color.Green : System.Drawing.Color.Red;
         }
 
         private void GenerateGrid()
@@ -92,11 +87,10 @@ namespace Kakuro
 
                     if (board.Grid[j, i].GetType().Name == "Entry")
                     {
-                        TextBox textBox = new TextBox 
+                        TextBox textBox = new TextBox
                         {
                             ID = $"cell_{j}_{i}",
                             CssClass = "form-control input-cell",
-                            TextMode = TextBoxMode.Number,
                             MaxLength = 1
                         };
                         tableCell.Controls.Add(textBox);
@@ -144,43 +138,11 @@ namespace Kakuro
                     var verSeg = new List<SumSegment>();
 
                     FetchCells(bID, grid, horSeg, verSeg);
-                    ;
-                    DisplayGridInConsole(grid,  sizeX,  sizeY);
 
                     return new Board(bID, sizeX, sizeY, difficulty, grid, horSeg, verSeg, score);
                     
                 }
             }
-        }
-
-        private void DisplayGridInConsole(Cell[,] grid, int sizeX, int sizeY)
-        {
-            Console.WriteLine("\n--- Kakuro Board Display ---");
-            for (int y = 0; y < sizeY; y++)
-            {
-                for (int x = 0; x < sizeX; x++)
-                {
-                    Cell cell = grid[x, y];
-
-                    if (cell is Entry entry)
-                    {
-                        // Print the correct value (or a dot if you want to represent a blank)
-                        Console.Write($"[{entry.CorrectValue}] ");
-                    }
-                    else if (cell is Clue clue)
-                    {
-                        // Print 'C' for Clue
-                        Console.Write($"[ {clue.HorizontalClue} / {clue.VerticalClue} ] ");
-                    }
-                    else
-                    {
-                        // Print 'X' for Empty/Black blocks
-                        Console.Write("[ X ] ");
-                    }
-                }
-                Console.WriteLine(); // New line after each row
-            }
-            Console.WriteLine("---------------------------\n");
         }
 
         private void FetchCells(int bID, Cell[,] grid, List<SumSegment> horSeg, List<SumSegment> verSeg)
@@ -238,11 +200,7 @@ namespace Kakuro
 
             return clue;
         }
-        public bool ValidateSolution(Board board, int[,] userInput)
-        {
-            return board.HorizontalSegments.All(segment => segment.IsValid()) &&
-                   board.VerticalSegments.All(segment => segment.IsValid());
-        }
+    
 
         //protected void timerPuzzle_Tick(object sender, EventArgs e)
         //{
