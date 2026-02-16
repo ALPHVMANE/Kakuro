@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Gameplay.aspx.cs" Inherits="Kakuro.Gameplay" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Views/Site.Master" CodeBehind="Gameplay.aspx.cs" Inherits="Kakuro.Gameplay" %>
 
 <asp:Content ID="GameplayContent" ContentPlaceHolderID="MainContent" runat="server">
 
