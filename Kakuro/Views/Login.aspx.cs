@@ -18,7 +18,7 @@ namespace Kakuro
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             // get user's inputs
-            string emlInput = txtLoginEmail.Text.Trim();
+            string usrInput = txtLoginUser.Text.Trim();
             string pwdInput = txtLoginPw.Text.Trim();
 
             // connect to DB
@@ -29,14 +29,14 @@ namespace Kakuro
             mycon.Open();
             // sql with 2 params
             string sql = "SELECT Id,Email, Username FROM Users ";
-            sql += "WHERE Email=@eml AND Password=@pwd";
+            sql += "WHERE (Email = @usr OR Username = @usr) AND Password=@pwd";
             SqlCommand mycmd = new SqlCommand(sql, mycon);
 
-            mycmd.Parameters.AddWithValue("@eml", emlInput);
+            mycmd.Parameters.AddWithValue("@usr", usrInput);
             mycmd.Parameters.AddWithValue("@pwd", pwdInput);
 
             SqlDataReader myrder = mycmd.ExecuteReader();
-            // test if member = found
+            // test if user = found
             if (myrder.Read() == true)
             {
                 // global var.
@@ -47,12 +47,12 @@ namespace Kakuro
                 mycon.Close();
                 Response.Redirect("Home.aspx");
             }
-            else // member not found
+            else // user not found
             {
                 myrder.Close();
                 mycon.Close();
                 lblError.Visible = true;
-                lblError.Text = "Wrong Email or Password, Try again.";
+                lblError.Text = "Wrong Email/Username or Password, Try again.";
             }
         }
     }
