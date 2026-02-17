@@ -15,22 +15,22 @@ namespace Kakuro
     {
 
         /// <summary>
-        /// txtLoginEmail control.
+        /// txtLoginUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLoginEmail;
+        protected global::System.Web.UI.WebControls.TextBox txtLoginUser;
 
         /// <summary>
-        /// reqLoginEmail control.
+        /// reqLoginUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqLoginEmail;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqLoginUser;
 
         /// <summary>
         /// txtLoginPw control.

@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/Site.Master" CodeBehind="Login.aspx.cs" Inherits="Kakuro.Login" %>
-<%@ Page Title="Login" Language="C#" MasterPageFile="~/Views/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Kakuro.Login" %>
+﻿<%@ Page Title="Login" Language="C#" MasterPageFile="~/Views/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Kakuro.Login" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -20,14 +19,14 @@
                             <label class="form-label d-block mx-auto" style="max-width: 420px;">Email or Username:</label>
 
                             <div class="d-flex justify-content-center gap-2">
-                                <asp:TextBox ID="txtLoginEmail" runat="server"
+                                <asp:TextBox ID="txtLoginUser" runat="server"
                                     CssClass="form-control"
                                     Style="max-width: 420px;"
-                                    placeholder="Enter Email" />
+                                    placeholder="Enter Email or Username" />
 
-                                <asp:RequiredFieldValidator ID="reqLoginEmail" runat="server"
-                                    ControlToValidate="txtLoginEmail"
-                                    ErrorMessage="Please enter a valid Email."
+                                <asp:RequiredFieldValidator ID="reqLoginUser" runat="server"
+                                    ControlToValidate="txtLoginUser"
+                                    ErrorMessage="Please enter a valid Email or Username."
                                     Text="*"
                                     Font-Bold="true"
                                     ForeColor="Red" />
