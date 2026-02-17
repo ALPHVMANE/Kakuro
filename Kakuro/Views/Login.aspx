@@ -14,19 +14,20 @@
 
                         <h3 class="text-center mb-4">Login</h3>
 
-                        <!--Email / Username-->
+                        <!--Email-->
                         <div class="mb-3">
-                            <label class="form-label d-block mx-auto" style="max-width: 420px;">Email or Username:</label>
+                            <label class="form-label d-block mx-auto" style="max-width: 420px;">Email:</label>
 
                             <div class="d-flex justify-content-center gap-2">
-                                <asp:TextBox ID="txtLoginUser" runat="server"
+                                <asp:TextBox ID="txtLoginEmail" runat="server"
                                     CssClass="form-control"
                                     Style="max-width: 420px;"
-                                    placeholder="Enter Email or Username" />
+                                    TextMode="Email"
+                                    placeholder="Enter Email" />
 
-                                <asp:RequiredFieldValidator ID="reqLoginUser" runat="server"
-                                    ControlToValidate="txtLoginUser"
-                                    ErrorMessage="Please enter a valid Email or Username."
+                                <asp:RequiredFieldValidator ID="reqLoginEmail" runat="server"
+                                    ControlToValidate="txtLoginEmail"
+                                    ErrorMessage="Please enter a valid Email."
                                     Text="*"
                                     Font-Bold="true"
                                     ForeColor="Red" />
@@ -75,7 +76,7 @@
                                 Text="Login"
                                 CssClass="btn btn-primary"
                                 Style="width: 420px;"
-                                OnClick="btnLogin_Click" />
+                                OnClick="btn_submitLogin_Click" />
                         </div>
 
                         <!--Register Link-->
