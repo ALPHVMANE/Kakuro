@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Content\Levels.css" />
     <Content Include="Views\Gameplay.aspx" />
     <Content Include="Views\About.aspx" />
     <Content Include="App_Data\Kakuro.mdf" />
@@ -147,6 +148,7 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Views\History.aspx" />
     <Content Include="Views\Home.aspx" />
     <Content Include="Views\Leaderboard.aspx" />
     <Content Include="Views\Levels.aspx" />
@@ -214,6 +216,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Model\GameCollection.cs" />
+    <Compile Include="Model\PuzzleManager.cs" />
+    <Compile Include="Model\SQLManager.cs" />
     <Compile Include="Views\Gameplay.aspx.cs">
       <DependentUpon>Gameplay.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -245,6 +250,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Views\History.aspx.cs">
+      <DependentUpon>History.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\History.aspx.designer.cs">
+      <DependentUpon>History.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Home.aspx.cs">
       <DependentUpon>Home.aspx</DependentUpon>
