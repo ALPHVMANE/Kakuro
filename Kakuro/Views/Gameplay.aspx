@@ -6,9 +6,7 @@
 
     <asp:UpdatePanel ID="upPuzzle" runat="server"> <%--Update Panel => timer--%>
         <ContentTemplate>
-            <%-- <asp:Timer ID="timerPuzzle" runat="server" OnTick="timerPuzzle_Tick" Interval="1000" />
-            <asp:Label ID="TimeLabel" runat="server" CssClass="h4" Text="Time Elapsed: 0 seconds" />--%>
-            
+
             <hr />
                 <asp:Table ID="KakuroTable" runat="server" CssClass="table table-bordered text-center kakuro-grid">
                 </asp:Table>

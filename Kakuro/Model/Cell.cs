@@ -34,13 +34,12 @@ namespace Kakuro.Model
         public int? CurrentValue { get; set;} 
         public int CorrectValue { get; set;}
 
-        // Logic helper: Check if the user's input is right
         public bool IsCorrect => CurrentValue == CorrectValue;
 
         public Entry(int x, int y, int correctValue) : base(x, y)
         {
             this.CorrectValue = correctValue;
-            this.CurrentValue = null; // Initially empty
+            this.CurrentValue = null;
         }
     }
 

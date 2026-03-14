@@ -14,12 +14,8 @@ namespace Kakuro.Model
         public string Difficulty { get; set; }
         public Cell[,] Grid { get; set; }
 
-        public List<SumSegment> HorizontalSegments { get; set; }
-        public List<SumSegment> VerticalSegments { get; set; }
-
         // Single flexible constructor using optional parameters
-        public Board(int id, int sizeX, int sizeY, string difficulty, Cell[,] grid,
-                     List<SumSegment> horSeg = null, List<SumSegment> verSeg = null, int score = 0)
+        public Board(int id, int sizeX, int sizeY, string difficulty, Cell[,] grid, int score = 0)
         {
             Id = id;
             SizeX = sizeX;
@@ -27,8 +23,6 @@ namespace Kakuro.Model
             Difficulty = difficulty;
             Grid = grid;
             Score = score;
-            HorizontalSegments = horSeg ?? new List<SumSegment>();
-            VerticalSegments = verSeg ?? new List<SumSegment>();
         }
 
         // Example of a computed property for scoring
@@ -38,38 +32,5 @@ namespace Kakuro.Model
         //    //Coming Soon...
         //}
 
-    }
-
-    public class SumSegment
-    {
-        public int TargetSum { get; set; }
-        public List<Entry> Entries { get; set; }
-
-        public SumSegment(int targetSum, List<Entry> entries)
-        {
-            TargetSum = targetSum;
-            Entries = entries;
-        }
-        public bool IsValid()
-        {
-            var values = Entries
-                .Select(e => e.CurrentValue)
-                .Where(v => v.HasValue)
-                .Cast<int>()
-                .ToList();
-
-            // 1. Check for duplicates
-            if (values.Count != values.Distinct().Count()) return false;
-
-            var currentSum = values.Sum();
-
-            // 2. Cannot exceed target
-            if (currentSum > TargetSum) return false;
-
-            // 3. If all cells filled, must equal target
-            if (values.Count == Entries.Count && currentSum != TargetSum) return false;
-
-            return true;
-        }
     }
 }
