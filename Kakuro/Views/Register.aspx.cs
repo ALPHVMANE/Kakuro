@@ -17,7 +17,7 @@ namespace Kakuro
 
         }
 
-        protected void btnRegister_Click(object sender, EventArgs e)
+        protected void btn_submitRegistration_Click(object sender, EventArgs e)
         {
             //Recuperate the user input
             string userInput = txtUsername.Text.Trim();

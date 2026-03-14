@@ -15,7 +15,7 @@ namespace Kakuro
             lblError.Visible = false;
         }
 
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btn_submitLogin_Click(object sender, EventArgs e)
         {
             // get user's inputs
             string emlInput = txtLoginEmail.Text.Trim();
@@ -36,7 +36,7 @@ namespace Kakuro
             mycmd.Parameters.AddWithValue("@pwd", pwdInput);
 
             SqlDataReader myrder = mycmd.ExecuteReader();
-            // test if member = found
+            // test if user = found
             if (myrder.Read() == true)
             {
                 // global var.
@@ -47,7 +47,7 @@ namespace Kakuro
                 mycon.Close();
                 Response.Redirect("Home.aspx");
             }
-            else // member not found
+            else // user not found
             {
                 myrder.Close();
                 mycon.Close();

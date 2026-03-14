@@ -131,7 +131,7 @@
                                 Text="Register"
                                 CssClass="btn btn-primary"
                                 Style="width: 420px;"
-                                OnClick="btnRegister_Click" />
+                                OnClick="btn_submitRegistration_Click" />
                         </div>
 
                         <!--Login Link-->

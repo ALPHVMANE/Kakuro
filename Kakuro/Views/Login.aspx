@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/Views/Site.Master" CodeBehind="Login.aspx.cs" Inherits="Kakuro.Login" %>
-<%@ Page Title="Login" Language="C#" MasterPageFile="~/Views/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Kakuro.Login" %>
+﻿<%@ Page Title="Login" Language="C#" MasterPageFile="~/Views/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Kakuro.Login" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -15,14 +14,15 @@
 
                         <h3 class="text-center mb-4">Login</h3>
 
-                        <!--Email / Username-->
+                        <!--Email-->
                         <div class="mb-3">
-                            <label class="form-label d-block mx-auto" style="max-width: 420px;">Email or Username:</label>
+                            <label class="form-label d-block mx-auto" style="max-width: 420px;">Email:</label>
 
                             <div class="d-flex justify-content-center gap-2">
                                 <asp:TextBox ID="txtLoginEmail" runat="server"
                                     CssClass="form-control"
                                     Style="max-width: 420px;"
+                                    TextMode="Email"
                                     placeholder="Enter Email" />
 
                                 <asp:RequiredFieldValidator ID="reqLoginEmail" runat="server"
@@ -76,7 +76,7 @@
                                 Text="Login"
                                 CssClass="btn btn-primary"
                                 Style="width: 420px;"
-                                OnClick="btnLogin_Click" />
+                                OnClick="btn_submitLogin_Click" />
                         </div>
 
                         <!--Register Link-->
