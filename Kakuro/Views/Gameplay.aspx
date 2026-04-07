@@ -12,11 +12,16 @@
                 </asp:Table>
             </div>
             
-            <div class="mt-3">
-                <asp:Button ID="CheckSolutionButton" runat="server" Text="Check Solution" 
-                    CssClass="btn btn-primary" OnClick="btnCheckSolution_Click" />
-                <asp:Label ID="ResultLabel" runat="server" CssClass="ml-3 font-weight-bold" Text=""/>
-            </div>
+         <div class="d-flex flex-column align-items-center mt-4">
+            <asp:Button ID="CheckSolutionButton" runat="server" 
+                Text="Check Solution" 
+                CssClass="btn btn-primary px-4 py-2" 
+                OnClick="btnCheckSolution_Click" />
+
+            <asp:Label ID="ResultLabel" runat="server" 
+                CssClass="mt-2 font-weight-bold" 
+                Text="" />
+        </div>
 
         </ContentTemplate>
 

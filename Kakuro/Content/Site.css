@@ -13,6 +13,80 @@ textarea {
     max-width: 280px;
 }
 
+/* The main table container */
+.kakuro-grid {
+    width: auto !important; /* Prevents stretching to 100% */
+    table-layout: fixed; /* Forces the browser to respect our width/height */
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+    /* Force every single cell to be a perfect square */
+    .kakuro-grid td {
+        width: 60px !important; /* Increased from 40px */
+        height: 60px !important;
+        max-width: 60px !important;
+        max-height: 60px !important;
+        padding: 0 !important;
+        border: 2px solid #444 !important; /* Slightly thicker border for definition */
+        overflow: hidden;
+    }
+        .kakuro-grid td.empty-cell {
+            background-color: #1e293b !important;
+            border: 2px solid #444 !important;
+        }
+
+/* 2. Improve Clue Container Contrast */
+.clue-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-color: #1e293b !important;
+    /* The line: 49% to 51% creates a sharp 2px diagonal line */
+    background-image: linear-gradient( to top right, #1e293b 49%, #94a3b8 50%, #1e293b 51% ) !important;
+}
+
+/* 3. Bold and Bright Clue Numbers */
+.h-clue, .v-clue {
+    position: absolute;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 900; /* Extra bold */
+    color: #ffffff; /* Pure white for maximum contrast */
+    line-height: 1;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8); /* Shadow to make text pop */
+}
+
+.h-clue {
+    top: 5px;
+    right: 7px;
+    font-size: 14px; /* Larger font */
+}
+
+.v-clue {
+    bottom: 5px;
+    left: 7px;
+    font-size: 14px; /* Larger font */
+}
+
+.clue-cell {
+    background-color: #1e293b !important;
+    padding: 0 !important;
+}
+
+/* 4. Update the Text Input Cells to match size */
+.input-cell {
+    width: 60px !important;
+    height: 60px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    text-align: center;
+    font-size: 1.8rem; /* Bigger numbers as you type */
+    font-weight: bold;
+    display: block;
+    padding: 0 !important;
+    line-height: 60px;
+    background-color: #ffffff;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .body-content {

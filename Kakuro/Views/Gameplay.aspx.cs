@@ -18,7 +18,7 @@ namespace Kakuro
         protected void Page_Load(object sender, EventArgs e)
         {
             connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
-            GameCollection sqlm = new SQLManager(connStr);
+            SQLManager sqlm = new SQLManager(connStr);
             PuzzleManager pm = new PuzzleManager(sqlm);
 
             if (!IsPostBack)
@@ -110,45 +110,42 @@ namespace Kakuro
                         {
                             ID = $"cell_{j}_{i}",
                             CssClass = "form-control input-cell",
-                            MaxLength = 1
+                            MaxLength = 1,
+                            // Persist value if it's already in the entry
+                            Text = entryCell.CurrentValue != 0 ? entryCell.CurrentValue.ToString() : ""
                         };
                         tableCell.Controls.Add(txt);
                     }
                     else if (cell is Clue clueCell)
                     {
-                        Panel clueDiv = new Panel
-                        {
-                            CssClass = "clue-container" // This is your <div> class
-                        };
+                        // The Panel renders as a <div> in the browser
+                        Panel clueDiv = new Panel { CssClass = "clue-container" };
 
-                        // Create labels for the values to go inside the div
                         if (clueCell.VerticalClue.HasValue)
                         {
-                            Label vLabel = new Label
+                            clueDiv.Controls.Add(new Label
                             {
                                 Text = clueCell.VerticalClue.Value.ToString(),
                                 CssClass = "v-clue"
-                            };
-                            clueDiv.Controls.Add(vLabel);
+                            });
                         }
 
                         if (clueCell.HorizontalClue.HasValue)
                         {
-                            Label hLabel = new Label
+                            clueDiv.Controls.Add(new Label
                             {
                                 Text = clueCell.HorizontalClue.Value.ToString(),
                                 CssClass = "h-clue"
-                            };
-                            clueDiv.Controls.Add(hLabel);
+                            });
                         }
 
-                        
-                        tableCell.CssClass = "clue-cell bg-dark text-white";
+                        tableCell.CssClass = "clue-cell";
                         tableCell.Controls.Add(clueDiv);
                     }
                     else
                     {
                         tableCell.CssClass = "empty-cell bg-dark";
+                        tableCell.BackColor = System.Drawing.Color.FromArgb(30, 41, 59); // Matches slate-800
                     }
 
                     row.Cells.Add(tableCell);

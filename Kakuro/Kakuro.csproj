@@ -216,7 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="Model\GameCollection.cs" />
     <Compile Include="Model\PuzzleManager.cs" />
     <Compile Include="Model\SQLManager.cs" />
     <Compile Include="Views\Gameplay.aspx.cs">
