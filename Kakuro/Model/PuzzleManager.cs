@@ -10,11 +10,11 @@ namespace Kakuro.Model
     public class PuzzleManager
     {
         private int boardID;
-        private readonly GameCollection gc;
+        public SQLManager sql;
 
-        public PuzzleManager(GameCollection gameC)
+        public PuzzleManager(SQLManager gameC)
         {
-            gc = gameC;
+            sql = gameC;
         }
 
         public Board initBoard(int bID, int uID)
@@ -23,13 +23,13 @@ namespace Kakuro.Model
 
             Board currentBoard;
 
-            if (!gc.SessionExists(boardID, uID)){  
-                gc.InsertGameState(boardID, uID);
-                currentBoard = gc.FetchBoardData(boardID);
+            if (!sql.SessionExists(boardID, uID)){  
+                sql.InsertGameState(boardID, uID);
+                currentBoard = sql.FetchBoardData(boardID);
             }
             else
             {
-                currentBoard = gc.FetchBoardData(boardID, uID);
+                currentBoard = sql.FetchBoardData(boardID, uID);
             }
 
             return currentBoard;

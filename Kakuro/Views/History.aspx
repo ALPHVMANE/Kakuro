@@ -3,151 +3,74 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <link href="../Content/Levels.css?v=1" rel="stylesheet" type="text/css" />
 
-        <asp:Panel ID="pnlHistory" runat="server" CssClass="v-stack-container d-flex flex-column align-items-center gap-2">
+    <div class="container mt-4">
+        <asp:Panel ID="pnlHistory" runat="server" CssClass="card shadow-sm p-4">
+            <h2 class="mb-4 text-center">Game History</h2>
+            
             <asp:ListView ID="ListView" runat="server" DataSourceID="KakuroGameDB" DataKeyNames="SessionID">
-                <AlternatingItemTemplate>
-                    <tr style="">
-                        <td>
-                            <asp:Label ID="SessionIDLabel" runat="server" Text='<%# Eval("SessionID") %>' />
-                        </td>
-                        <td>
-                            <asp:Label ID="BoardIDLabel" runat="server" Text='<%# Eval("BoardID") %>' />
-                        </td>
-                        <td>
-                            <asp:CheckBox ID="StatusCheckBox" runat="server" Checked='<%# Eval("Status") %>' Enabled="false" />
-                        </td>
-                        <td>
-                            <asp:Label ID="ScoreLabel" runat="server" Text='<%# Eval("Score") %>' />
-                        </td>
-                        <td>
-                            <asp:Label ID="ErrorsLabel" runat="server" Text='<%# Eval("Errors") %>' />
-                        </td>
-                    </tr>
-                </AlternatingItemTemplate>
-                <EditItemTemplate>
-                    <tr style="">
-                        <td>
-                            <asp:Button ID="UpdateButton" runat="server" CommandName="Update" Text="Update" />
-                            <asp:Button ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
-                        </td>
-                        <td>
-                            <asp:Label ID="SessionIDLabel1" runat="server" Text='<%# Eval("SessionID") %>' />
-                        </td>
-                        <td>
-                            <asp:TextBox ID="BoardIDTextBox" runat="server" Text='<%# Bind("BoardID") %>' />
-                        </td>
-                        <td>
-                            <asp:CheckBox ID="StatusCheckBox" runat="server" Checked='<%# Bind("Status") %>' />
-                        </td>
-                        <td>
-                            <asp:TextBox ID="ScoreTextBox" runat="server" Text='<%# Bind("Score") %>' />
-                        </td>
-                        <td>
-                            <asp:TextBox ID="ErrorsTextBox" runat="server" Text='<%# Bind("Errors") %>' />
-                        </td>
-                    </tr>
-                </EditItemTemplate>
-                <EmptyDataTemplate>
-                    <table runat="server" style="">
-                        <tr>
-                            <td>No data was returned.</td>
-                        </tr>
-                    </table>
-                </EmptyDataTemplate>
-                <InsertItemTemplate>
-                    <tr style="">
-                        <td>
-                            <asp:Button ID="InsertButton" runat="server" CommandName="Insert" Text="Insert" />
-                            <asp:Button ID="CancelButton" runat="server" CommandName="Cancel" Text="Clear" />
-                        </td>
-                        <td>&nbsp;</td>
-                        <td>
-                            <asp:TextBox ID="BoardIDTextBox" runat="server" Text='<%# Bind("BoardID") %>' />
-                        </td>
-                        <td>
-                            <asp:CheckBox ID="StatusCheckBox" runat="server" Checked='<%# Bind("Status") %>' />
-                        </td>
-                        <td>
-                            <asp:TextBox ID="ScoreTextBox" runat="server" Text='<%# Bind("Score") %>' />
-                        </td>
-                        <td>
-                            <asp:TextBox ID="ErrorsTextBox" runat="server" Text='<%# Bind("Errors") %>' />
-                        </td>
-                    </tr>
-                </InsertItemTemplate>
-                <ItemTemplate>
-                    <tr style="">
-                        <td>
-                            <asp:Label ID="SessionIDLabel" runat="server" Text='<%# Eval("SessionID") %>' />
-                        </td>
-                        <td>
-                            <asp:Label ID="BoardIDLabel" runat="server" Text='<%# Eval("BoardID") %>' />
-                        </td>
-                        <td>
-                            <asp:CheckBox ID="StatusCheckBox" runat="server" Checked='<%# Eval("Status") %>' Enabled="false" />
-                        </td>
-                        <td>
-                            <asp:Label ID="ScoreLabel" runat="server" Text='<%# Eval("Score") %>' />
-                        </td>
-                        <td>
-                            <asp:Label ID="ErrorsLabel" runat="server" Text='<%# Eval("Errors") %>' />
-                        </td>
-                    </tr>
-                </ItemTemplate>
                 <LayoutTemplate>
-                    <table runat="server">
-                        <tr runat="server">
-                            <td runat="server">
-                                <table id="itemPlaceholderContainer" runat="server" border="0" style="">
-                                    <tr runat="server" style="">
-                                        <th runat="server">SessionID</th>
-                                        <th runat="server">BoardID</th>
-                                        <th runat="server">Status</th>
-                                        <th runat="server">Score</th>
-                                        <th runat="server">Errors</th>
-                                    </tr>
-                                    <tr id="itemPlaceholder" runat="server">
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr runat="server">
-                            <td runat="server" style="">
-                                <asp:DataPager ID="DataPager1" runat="server">
-                                    <Fields>
-                                        <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False" />
-                                        <asp:NumericPagerField />
-                                        <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False" />
-                                    </Fields>
-                                </asp:DataPager>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Complete?</th>
+                                    <th>Session ID</th>
+                                    <th>Board ID</th>
+                                    <th>Score</th>
+                                    <th>Errors</th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="itemPlaceholder" runat="server"></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center mt-3">
+                        <asp:DataPager ID="DataPager1" runat="server" PageSize="10" CssClass="btn-group">
+                            <Fields>
+                                <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowNextPageButton="False" 
+                                    ButtonCssClass="btn btn-outline-secondary btn-sm" />
+                                <asp:NumericPagerField ButtonCount="5" 
+                                    NumericButtonCssClass="btn btn-outline-secondary btn-sm" 
+                                    CurrentPageLabelCssClass="btn btn-primary btn-sm disabled" 
+                                    NextPreviousButtonCssClass="btn btn-outline-secondary btn-sm" />
+                                <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="True" ShowNextPageButton="False" 
+                                    ButtonCssClass="btn btn-outline-secondary btn-sm" />
+                            </Fields>
+                        </asp:DataPager>
+                    </div>
                 </LayoutTemplate>
-                <SelectedItemTemplate>
-                    <tr style="">
+
+                <ItemTemplate>
+                    <tr>
+                        <td><%# Eval("SessionID") %></td>
+                        <td><span class="badge bg-info text-dark">#<%# Eval("BoardID") %></span></td>
                         <td>
-                            />
+                            <asp:CheckBox ID="StatusCheckBox" runat="server" Checked='<%# Eval("Status") %>' Enabled="false" CssClass="form-check-input" />
+                            <span class="ms-2 small text-muted"><%# (bool)Eval("Status") ? "Completed" : "In Progress" %></span>
                         </td>
-                        <td>
-                            <asp:Label ID="BoardIDLabel" runat="server" Text='<%# Eval("BoardID") %>' />
-                        </td>
-                        <td>
-                            <asp:CheckBox ID="StatusCheckBox" runat="server" Checked='<%# Eval("Status") %>' Enabled="false" />
-                        </td>
-                        <td>
-                            <asp:Label ID="ScoreLabel" runat="server" Text='<%# Eval("Score") %>' />
-                        </td>
-                        <td>
-                            <asp:Label ID="ErrorsLabel" runat="server" Text='<%# Eval("Errors") %>' />
-                        </td>
+                        <td class="fw-bold text-success"><%# Eval("Score") %></td>
+                        <td class="text-danger"><%# Eval("Errors") %></td>
                     </tr>
-                </SelectedItemTemplate>
+                </ItemTemplate> 
+
+                <EmptyDataTemplate>
+                    <div class="alert alert-warning text-center">
+                        No game history found for this user.
+                    </div>
+                </EmptyDataTemplate>
             </asp:ListView>
-            <asp:SqlDataSource ID="KakuroGameDB" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [SessionID], [BoardID], [Status], [Score], [Errors] FROM [GameState] WHERE ([UserID] = @UserID)">
-                <SelectParameters>
-                    <asp:SessionParameter DefaultValue="1" Name="UserID" SessionField="MemberID" Type="Int32" />
-                </SelectParameters>
-            </asp:SqlDataSource>
         </asp:Panel>
+    </div>
+
+    <asp:SqlDataSource ID="KakuroGameDB" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
+        SelectCommand="SELECT [SessionID], [BoardID], [Status], [Score], [Errors] FROM [GameState] WHERE ([UserID] = @UserID)">
+        <SelectParameters>
+            <asp:SessionParameter DefaultValue="1" Name="UserID" SessionField="MemberID" Type="Int32" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 </asp:Content>

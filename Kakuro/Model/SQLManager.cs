@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Kakuro.Model
 {
-    class SQLManager : GameCollection
+    public class SQLManager
     {
         private Board board = null;
         private string cStr;
@@ -61,7 +61,7 @@ namespace Kakuro.Model
 
                 using (SqlCommand cmd = new SqlCommand("SELECT b.*, gs.SessionID, gs.Score as SavedScore, gs.Errors " +
                     "FROM Board b " +
-                    "LEFT JOIN GameSession gs ON b.Id = gs.BoardID AND gs.UserID = @uID" +
+                    "LEFT JOIN GameState gs ON b.Id = gs.BoardID AND gs.UserID = @uID" +
                     " WHERE b.Id = @bID", conn))
                 {
                     cmd.Parameters.AddWithValue("@bID", bID);
@@ -71,11 +71,11 @@ namespace Kakuro.Model
                     {
                         if (rSess.Read())
                         {
+                            int gID = (int)rSess["SessionID"];
                             int sx = (int)rSess["SizeX"];
                             int sy = (int)rSess["SizeY"];
                             string diff = rSess["Difficulty"].ToString();
                             int score = rSess["SavedScore"] == DBNull.Value ? 0 : (int)rSess["SavedScore"];
-                            int gID = (int)rSess["SessionID"];
 
                             board = new Board(bID, sx, sy, diff, new Cell[sx, sy], score);
                             rSess.Close();
