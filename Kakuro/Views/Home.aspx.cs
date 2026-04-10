@@ -11,7 +11,18 @@ namespace Kakuro.Views
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["MemberID"] == null)
+            {
+                Response.Redirect("~/Views/Login.aspx");
+                return;
+            }
+        }
 
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("~/Views/Login.aspx");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Kakuro.Views
 {
 
 
-    public partial class Levels
+    public partial class Profile
     {
 
         /// <summary>
@@ -33,102 +33,57 @@ namespace Kakuro.Views
         protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
         /// <summary>
-        /// pnlLevels control.
+        /// lblInitial control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlLevels;
+        protected global::System.Web.UI.WebControls.Label lblInitial;
 
         /// <summary>
-        /// btn25 control.
+        /// lblUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn25;
+        protected global::System.Web.UI.WebControls.Label lblUsername;
 
         /// <summary>
-        /// btn26 control.
+        /// lblEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn26;
+        protected global::System.Web.UI.WebControls.Label lblEmail;
 
         /// <summary>
-        /// btn27 control.
+        /// lblLevelsCompleted control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn27;
+        protected global::System.Web.UI.WebControls.Label lblLevelsCompleted;
 
         /// <summary>
-        /// btn28 control.
+        /// lblScore control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn28;
+        protected global::System.Web.UI.WebControls.Label lblScore;
 
         /// <summary>
-        /// btn29 control.
+        /// btnBack control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn29;
-
-        /// <summary>
-        /// btn30 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn30;
-
-        /// <summary>
-        /// btn31 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn31;
-
-        /// <summary>
-        /// btn32 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn32;
-
-        /// <summary>
-        /// btn33 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn33;
-
-        /// <summary>
-        /// btn34 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn34;
+        protected global::System.Web.UI.WebControls.Button btnBack;
     }
 }
