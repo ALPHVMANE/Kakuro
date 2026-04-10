@@ -217,5 +217,36 @@ namespace Kakuro.Model
             }
         }
 
+       public Board RNGClues(int puzzleId, int sizeX, int sizeY, string difficulty)
+        {
+            RNGController rngCrontroller = new RNGController(sizeX, sizeY);
+            return rngCrontroller.GenerateBoard(puzzleId, difficulty);
+        }
+
+        // updates the levels if correct
+        public void CompletedLevel(int uID, int boardID)
+        {
+            using (SqlConnection conn = new SqlConnection(cStr))
+            {
+                conn.Open();
+                //mark as completed in db
+                using (SqlCommand cmd = new SqlCommand("UPDATE GameState SET Status = 1 WHERE UserID = @uID AND BoardID = @bID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@uID", uID);
+                    cmd.Parameters.AddWithValue("@bID", boardID);
+                    cmd.ExecuteNonQuery();
+                }
+
+                //increment levels
+                using (SqlCommand cmd2 = new SqlCommand("UPDATE Users SET LevelsCompleted = LevelsCompleted + 1 " +
+                    "WHERE Id = @uID AND LevelsCompleted < @boardID", conn))
+                {
+                    cmd2.Parameters.AddWithValue("@uID", uID);
+                    cmd2.Parameters.AddWithValue("@boardID", boardID);
+                    cmd2.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }

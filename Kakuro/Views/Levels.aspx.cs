@@ -23,7 +23,8 @@ namespace Kakuro.Views
 
             int userCurrentLevel = sqlm.GetCompletedLevelsCount(Convert.ToInt32(Session["MemberID"]))+1;
 
-            for (int i = 1; i <= 11; i++)
+            // change it back to i <= 11 after levels fully created
+            for (int i = 1; i <= 10; i++)
             {
                 string buttonId = "btn" + (i + 24);
 

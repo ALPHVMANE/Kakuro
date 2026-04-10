@@ -45,7 +45,7 @@ namespace Kakuro
 
                 myrder.Close();
                 mycon.Close();
-                Response.Redirect("Home.aspx");
+                Response.Redirect("Gameplay.aspx");
             }
             else // user not found
             {
