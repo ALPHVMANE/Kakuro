@@ -15,7 +15,7 @@
 </head>
 <body>
     <form runat="server">
-
+        
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" runat="server" href="~/">Kakuro</a>
