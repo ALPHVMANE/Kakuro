@@ -28,6 +28,7 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/About">About</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Leaderboard">Leaderboard</a></li>
                         <li class="nav-item"><a id="navLevels" class="nav-link" runat="server" href="~/Views/Levels">Levels</a></li>
                         <li class="nav-item"><a id="navRNG" class="nav-link" runat="server" href="~/Views/SelectConfiguration">Play</a></li>
                     </ul>
