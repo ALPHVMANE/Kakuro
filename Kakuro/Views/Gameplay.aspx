@@ -2,7 +2,6 @@
 
 <asp:Content ID="GameplayContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
     <asp:UpdatePanel ID="upPuzzle" runat="server"> <%--Update Panel => timer--%>
         <ContentTemplate>
@@ -11,7 +10,7 @@
                 <asp:Table ID="KakuroTable" runat="server" CssClass="table table-bordered text-center kakuro-grid">
                 </asp:Table>
             </div>
-            
+
          <div class="d-flex flex-column align-items-center mt-4">
             <asp:Button ID="CheckSolutionButton" runat="server" 
                 Text="Check Solution" 

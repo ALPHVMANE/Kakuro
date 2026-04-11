@@ -23,22 +23,39 @@ namespace Kakuro
 
             if (!IsPostBack)
             {
-                Session["MemberID"] = 1; //temp
-
-                if (Session["lvlBoardID"] == null || Session["MemberID"] == null)
+                if (Session["MemberID"] == null)
                 {
-                    Response.Redirect("~/Views/Levels.aspx");
+                    Response.Redirect("~/Views/Login.aspx");
                     return;
                 }
 
-                int boardID = (int)Session["LvlBoardID"];
+                bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
 
-
-                board = pm.initBoard(boardID, (int)Session["MemberID"]);
-
-                if (board != null)
+                if (isRNG)
                 {
-                    Session["CurrentBoard"] = board;
+                    int size = (int)Session["RNGSizeX"];
+                    string diff = Session["RNGDifficulty"]?.ToString() ?? "Easy";
+
+                    board = pm.initFromTemplate(size, diff);
+
+                    if (board != null)
+                        Session["CurrentBoard"] = board;
+                    else
+                        Response.Write("<script>alert('No template found for that size and difficulty.');</script>");
+                }
+                else
+                {
+                    if (Session["LvlBoardID"] == null || Session["MemberID"] == null)
+                    {
+                        Response.Redirect("~/Views/Levels.aspx");
+                        return;
+                    }
+
+                    int boardID = (int)Session["LvlBoardID"];
+                    board = pm.initBoard(boardID, (int)Session["MemberID"]);
+
+                    if (board != null)
+                        Session["CurrentBoard"] = board;
                 }
             }
             else
@@ -46,34 +63,10 @@ namespace Kakuro
                 board = (Board)Session["CurrentBoard"];
             }
 
-
             if (board != null)
-            {
                 DisplayBoard();
-            }
             else
-            {
-                Response.Write("<script>alert('Unable to load board.')</script>");
-            }
-
-            bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
-
-            if(isRNG)
-            {
-                int sizeX = (int)Session["RNGSizeX"];
-                int sizeY = (int)Session["RNGSizeY"];
-                string diff = Session["RNGDifficulty"]?.ToString() ?? "Medium";
-
-                board = pm.initRNGBoard(0, sizeX, sizeY, diff);
-                Session["CurrentBoard"] = board;
-            }
-            else
-            {
-                int boardID = (int)Session["LvlBoardID"];
-                board = pm.initBoard(boardID, (int)Session["MemberID"]);
-                if (board != null) Session["CurrentBoard"] = board;
-            }
-
+                Response.Write("<script>alert('Unable to load board.');</script>");
         }
 
         //public bool ValidateSolution(Board board, int[,] userInput)
@@ -85,24 +78,23 @@ namespace Kakuro
         protected void btnCheckSolution_Click(object sender, EventArgs e) //Checks for non-dynamic puzzles only
         {
             bool isCorrect = true;
-            int[,] userSolution = new int[board.SizeX, board.SizeY];
+            bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
 
             for (int i = 0; i < board.SizeY; i++)
             {
                 for (int j = 0; j < board.SizeX; j++)
                 {
-                    if (board.Grid[j, i].GetType().Name == "Entry")
+                    if (board.Grid[j, i] is Entry cell)
                     {
                         string cellId = $"cell_{j}_{i}";
-                        
+
                         TextBox textBox = (TextBox)KakuroTable.FindControl(cellId);
-                        var cell = (Entry)board.Grid[j, i];
 
                         if (textBox == null || textBox.Text != Convert.ToString(cell.CorrectValue))
                         {
                             ResultLabel.Text = "Solution is incorrect. Try again!";
                             ResultLabel.ForeColor = System.Drawing.Color.Red;
-                            textBox.BackColor = System.Drawing.Color.LightPink;
+                            if (textBox != null) textBox.BackColor = System.Drawing.Color.LightPink;
                             isCorrect = false;
                         }
                     }
@@ -111,14 +103,20 @@ namespace Kakuro
 
             if (isCorrect)
             {
-                ResultLabel.Text = "Congratulations! You solved the puzzle!";
-                ResultLabel.ForeColor = System.Drawing.Color.Green;
-                SQLManager sqlm = new SQLManager(connStr);
-                sqlm.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
-
-                // redirect to next level or back to level select
-                Session["LvlBoardID"] = null;
-                Response.Redirect("~/Views/Levels.aspx");
+                if (isRNG)
+                {
+                    ResultLabel.Text = "Congratulations! Puzzle solved!";
+                    ResultLabel.ForeColor = System.Drawing.Color.Green;
+                    Session["IsRNG"] = null;
+                    Response.Write("<script>setTimeout(function(){ window.location='SelectConfiguration.aspx'; }, 2000);</script>");
+                }
+                else
+                {
+                    SQLManager sqlm = new SQLManager(connStr);
+                    sqlm.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
+                    Session["LvlBoardID"] = null;
+                    Response.Redirect("~/Views/Levels.aspx");
+                }
             }
         }
 

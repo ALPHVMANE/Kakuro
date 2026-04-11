@@ -103,6 +103,8 @@ namespace Kakuro.Views
             string sizeY = hfSizeY.Value;
             string diff = hfDiff.Value;
 
+            
+
             if (string.IsNullOrEmpty(sizeX) || string.IsNullOrEmpty(sizeY) || string.IsNullOrEmpty(diff))
             {
                 lblError.Visible = true;
@@ -120,20 +122,14 @@ namespace Kakuro.Views
                 return;
             }
 
-            Session["isRNG"] = true;
+            Session["IsRNG"] = true;
             Session["RNGSizeX"] = size;
             Session["RNGSizeY"] = int.Parse(sizeY);
             Session["RNGDifficulty"] = diff;
             Session["LvlBoardID"] = null;
 
-            Response.Redirect("~/Views/Gameplay/aspx");
+            Response.Redirect("~/Views/Gameplay.aspx");
         }
 
-        protected void btnLogout_Click(object sender, EventArgs e)
-        {
-            Session.Clear();
-            Session.Abandon();
-            Response.Redirect("~/Views/Login");
-        }
     }
 }

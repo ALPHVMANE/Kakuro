@@ -35,9 +35,13 @@ namespace Kakuro.Model
             return currentBoard;
         }
 
-        public Board initRNGBoard(int puzzleId, int sizeX, int sizeY, string difficulty)
+        public Board initFromTemplate(int size, string difficulty)
         {
-            return sql.RNGClues(puzzleId, sizeX, sizeY, difficulty);
+            Board template = sql.FetchTemplate(size, difficulty);
+            if (template == null) return null;
+
+            RNGController rng = new RNGController(template.SizeX, template.SizeY);
+            return rng.GenerateFromTemplate(template, difficulty);
         }
 
     }

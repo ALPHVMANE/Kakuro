@@ -15,6 +15,7 @@
 </head>
 <body>
     <form runat="server">
+        <asp:ScriptManager ID="ScripManager1" runat="server"></asp:ScriptManager>
         
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
@@ -33,7 +34,7 @@
                     </ul>
                     <ul class="navbar-nav flex-grow-2">
                         <li id="navProfile" class="nav-item" runat="server" visible="false"><a class="nav-link" runat="server" href="~/Views/Profile">Profile</a></li>
-                        <li id="navLogout" class="nav-item" runat="server" visisble="false"><asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" OnClick="btnLogout_Click">Logout</asp:LinkButton></li>
+                        <li id="navLogout" class="nav-item" runat="server" visible="false"><asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" OnClick="btnLogout_Click">Logout</asp:LinkButton></li>
                         <li id="navLogin" class="nav-item" runat="server"><a class="nav-link" runat="server" href="~/Views/Login">Login</a></li>
                         <li id="navRegister" class="nav-item" runat="server"><a class="nav-link" runat="server" href="~/Views/Register">Register</a></li>
                     </ul>

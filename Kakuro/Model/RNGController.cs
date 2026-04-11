@@ -190,5 +190,108 @@ namespace Kakuro.Model
             return new Board(puzzleId, sizeX, sizeY, difficulty, grid);
         }
 
+        public Board GenerateFromTemplate(Board template, string difficulty)
+        {
+            sizeX = template.SizeX;
+            sizeY = template.SizeY;
+            grid = template.Grid;
+
+            FillEntryValues(difficulty);
+            RecalculateClueCells();
+
+            return template;
+        }
+
+        private void FillEntryValues(string difficulty) 
+        {
+            int maxDigit = difficulty == "Easy" ? 5 : difficulty == "Medium" ? 7 : 9;
+
+            for(int y  = 0; y < sizeY; y++)
+            {
+                int x = 0;
+                while(x < sizeX)
+                {
+                    if (grid[x, y] is Entry)
+                    {
+                        List<(int cx, int cy)> run = new List<(int, int)>();
+                        while (x < sizeX && grid[x, y] is Entry)
+                        {
+                            run.Add((x, y));
+                            x++;
+                        }
+                        AssignUniqueDigitsInRange(run, maxDigit);
+                    }
+                    else x++;
+                }
+            }
+
+            for (int x = 0; x < sizeX; x++)
+            {
+                int y = 0;
+                while (y < sizeY)
+                {
+                    if (grid[x, y] is Entry)
+                    {
+                        List<(int cx, int cy)> run = new List<(int, int)>();
+                        while (y < sizeY && grid[x, y] is Entry)
+                        {
+                            run.Add((x, y));
+                            y++;
+                        }
+                        EnsureUniqueInColumnRange(run, maxDigit);
+                    }
+                    else y++;
+                }
+            }
+        }
+
+        private void AssignUniqueDigitsInRange(List<(int x, int y)> run, int maxDigit)
+        {
+            int len = run.Count;
+            if (len == 0 || len > maxDigit) return;
+
+            List<int> digits = Enumerable.Range(1, maxDigit).OrderBy(_ => rng.Next()).Take(len).ToList();
+
+            for(int i = 0; i < run.Count; i++)
+            {
+                ((Entry)grid[run[i].x, run[i].y]).CorrectValue = digits[i];
+            }
+        }
+
+        private void EnsureUniqueInColumnRange(List<(int x, int y)> run, int maxDigit)
+        {
+            int maxTries = 30;
+            while (maxTries-- > 0)
+            {
+                HashSet<int> seen = new HashSet<int>();
+                bool ok = true;
+                foreach (var (cx, cy) in run)
+                {
+                    int v = ((Entry)grid[cx, cy]).CorrectValue;
+                    if (!seen.Add(v)) { ok = false; break; }
+                }
+                if (ok) return;
+                AssignUniqueDigitsInRange(run, maxDigit);
+            }
+        }
+
+        private void RecalculateClueCells()
+        {
+            for (int y = 0; y < sizeY; y++)
+            {
+                for (int x = 0; x < sizeX; x++)
+                {
+                    if (grid[x, y] is Clue clue)
+                    {
+                        if (clue.HorizontalClue.HasValue)
+                            clue.HorizontalClue = SumRunRight(x + 1, y);
+
+                        if (clue.VerticalClue.HasValue)
+                            clue.VerticalClue = SumRunDown(x, y + 1);
+                    }
+                }
+            }
+        }
+
     }
 }
