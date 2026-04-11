@@ -30,7 +30,7 @@ namespace Kakuro
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor navLevels;
+        protected global::System.Web.UI.WebControls.HyperLink navLevels;
 
         /// <summary>
         /// navRNG control.
@@ -39,7 +39,7 @@ namespace Kakuro
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor navRNG;
+        protected global::System.Web.UI.WebControls.HyperLink navRNG;
 
         /// <summary>
         /// navProfile control.

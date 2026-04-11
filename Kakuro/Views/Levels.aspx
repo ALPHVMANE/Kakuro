@@ -21,18 +21,6 @@
                     aria-expanded="false" aria-label="Toggle navigation" disabled="disabled">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Levels">Levels</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/SelectConfigurations">Custom Kakuro</a></li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Profile">Profile</a></li>
-                        <li class="nav-item">
-                            <asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" OnClick="btnLogout_Click">Logout</asp:LinkButton>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
         <div class="container body-content">

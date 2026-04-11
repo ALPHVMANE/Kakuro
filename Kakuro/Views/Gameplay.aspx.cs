@@ -39,7 +39,10 @@ namespace Kakuro
                     board = pm.initFromTemplate(size, diff);
 
                     if (board != null)
+                    {
                         Session["CurrentBoard"] = board;
+                        Session["IsRNG"] = true;
+                    }
                     else
                         Response.Write("<script>alert('No template found for that size and difficulty.');</script>");
                 }
@@ -57,16 +60,16 @@ namespace Kakuro
                     if (board != null)
                         Session["CurrentBoard"] = board;
                 }
+
+                if (board != null)
+                    DisplayBoard();
+                else
+                    Response.Write("<script>alert('Unable to load board.');</script>");
             }
             else
             {
                 board = (Board)Session["CurrentBoard"];
             }
-
-            if (board != null)
-                DisplayBoard();
-            else
-                Response.Write("<script>alert('Unable to load board.');</script>");
         }
 
         //public bool ValidateSolution(Board board, int[,] userInput)
@@ -77,6 +80,16 @@ namespace Kakuro
 
         protected void btnCheckSolution_Click(object sender, EventArgs e) //Checks for non-dynamic puzzles only
         {
+            if (board == null)
+                board = (Board)Session["CurrentBoard"];
+
+            if (board == null)
+            {
+                ResultLabel.Text = "Error: board not loaded. Please refresh";
+                ResultLabel.ForeColor = System.Drawing.Color.Red;
+                return;
+            }
+
             bool isCorrect = true;
             bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
 

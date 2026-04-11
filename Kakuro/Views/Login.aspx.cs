@@ -40,12 +40,12 @@ namespace Kakuro
             if (myrder.Read() == true)
             {
                 // global var.
-                Session["MemberName"] = myrder["Username"];
-                Session["MemberID"] = myrder["Id"];
+                Session["MemberName"] = myrder["Username"].ToString();
+                Session["MemberID"] = Convert.ToInt32(myrder["Id"]);
 
                 myrder.Close();
                 mycon.Close();
-                Response.Redirect("Gameplay.aspx");
+                Response.Redirect("~/Views/Home.aspx");
             }
             else // user not found
             {

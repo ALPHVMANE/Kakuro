@@ -29,8 +29,9 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/About">About</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Contact">Contact</a></li>
-                        <li class="nav-item"><a id="navLevels" class="nav-link" runat="server" href="~/Views/Levels">Levels</a></li>
-                        <li class="nav-item"><a id="navRNG" class="nav-link" runat="server" href="~/Views/SelectConfiguration">Play</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Leaderboard.aspx">Leaderboard</a></li>
+                        <li class="nav-item"><asp:HyperLink ID="navLevels" runat="server" CssClass="nav-link" NavigateUrl="~/Views/Levels" Visible="false">Levels</asp:HyperLink></li>
+                        <li class="nav-item"><asp:HyperLink ID="navRNG" runat="server" CssClass="nav-link" NavigateUrl="~/Views/SelectConfiguration" Visible="false">Levels</asp:HyperLink></li>
                     </ul>
                     <ul class="navbar-nav flex-grow-2">
                         <li id="navProfile" class="nav-item" runat="server" visible="false"><a class="nav-link" runat="server" href="~/Views/Profile">Profile</a></li>

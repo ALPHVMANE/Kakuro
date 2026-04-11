@@ -50,8 +50,8 @@ namespace Kakuro
             {
                 myrder.Close();
                 //Insert new user in the Users table
-                sql = "INSERT INTO Users (Username,Email,Password) ";
-                sql += "VALUES (@usr,@eml,@pwd)";
+                sql = "INSERT INTO Users (Username, Email, Password, LevelsCompleted, Score) ";
+                sql += "VALUES (@usr, @eml, @pwd, 0, 0)";
                 SqlCommand mycmd2 = new SqlCommand(sql, mycon);
                 mycmd2.Parameters.AddWithValue("@usr", userInput);
                 mycmd2.Parameters.AddWithValue("@eml", emailInput);
@@ -59,7 +59,7 @@ namespace Kakuro
                 mycmd2.ExecuteNonQuery();
                 mycon.Close();
                 //Go to the login page
-                Response.Redirect("Login.aspx");
+                Response.Redirect("~/Views/Login.aspx");
             }
         }
     }

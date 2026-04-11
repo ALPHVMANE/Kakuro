@@ -7,20 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Kakuro
+namespace Kakuro.Views
 {
 
 
-    public partial class Leaderboard
+    public partial class History
     {
 
         /// <summary>
-        /// rptLeaderboard control.
+        /// pnlHistory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptLeaderboard;
+        protected global::System.Web.UI.WebControls.Panel pnlHistory;
+
+        /// <summary>
+        /// ListView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView ListView;
     }
 }

@@ -29,14 +29,8 @@ namespace Kakuro.Model
                 {
                     cmd.Parameters.AddWithValue("@bID", bID);
                     cmd.Parameters.AddWithValue("@uID", uID);
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        int count = reader.GetInt32(0);
-                        return count > 0;
-                    }
-                    return false;
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
                 }
             }
         }
@@ -45,7 +39,8 @@ namespace Kakuro.Model
             using (SqlConnection conn = new SqlConnection(cStr))
             {
                 conn.Open();
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO GameState (UserID, BoardID, Status, Score, Errors) VALUES (@uID, @bID, 0, 0, 0)", conn))
+                using (SqlCommand cmd = new SqlCommand("IF NOT EXISTS (SELECT 1 FROM GameState WHERE BoardID = @bID AND UserID = @uID) " +
+                    "INSERT INTO GameState (UserID, BoardID, Status, Score, Errors) VALUES (@uID, @bID, 0, 0, 0)", conn))
                 {
                     cmd.Parameters.AddWithValue("@bID", bID);
                     cmd.Parameters.AddWithValue("@uID", uID);
@@ -172,6 +167,10 @@ namespace Kakuro.Model
                     {
                         int x = (int)reader2["X"];
                         int y = (int)reader2["Y"];
+
+                        if (x >= board.SizeX || y >= board.SizeY || x < 0 || y < 0)
+                            continue;
+
                         string type = reader2["CellType"].ToString();
 
                         if (type == "Entry")
@@ -268,6 +267,15 @@ namespace Kakuro.Model
                     cmd2.Parameters.AddWithValue("@uID", uID);
                     cmd2.Parameters.AddWithValue("@boardID", boardID);
                     cmd2.ExecuteNonQuery();
+                }
+
+                using (SqlCommand cmd3 = new SqlCommand("UPDATE Users SET Score = Score " +
+                    "(SELECT Score FROM Board WHERE Id = @bID) " +
+                    "WHERE Id = @uID", conn))
+                {
+                    cmd3.Parameters.AddWithValue("@uID", uID);
+                    cmd3.Parameters.AddWithValue("@bID", boardID);
+                    cmd3.ExecuteNonQuery();
                 }
             }
         }

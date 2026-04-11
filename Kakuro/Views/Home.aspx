@@ -23,7 +23,7 @@
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Levels">Levels</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/SelectConfigurations">Custom Kakuro</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/SelectConfiguration">Custom Kakuro</a></li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Profile">Profile</a></li>

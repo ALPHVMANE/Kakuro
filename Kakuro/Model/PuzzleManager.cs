@@ -23,7 +23,8 @@ namespace Kakuro.Model
 
             Board currentBoard;
 
-            if (!sql.SessionExists(boardID, uID)){  
+            if (!sql.SessionExists(boardID, uID))
+            {
                 sql.InsertGameState(boardID, uID);
                 currentBoard = sql.FetchBoardData(boardID);
             }
