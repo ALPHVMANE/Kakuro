@@ -1,11 +1,6 @@
-﻿using Kakuro.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Kakuro.Views
 {
@@ -29,49 +24,35 @@ namespace Kakuro.Views
         {
             int userId = Convert.ToInt32(Session["MemberID"]);
 
-            string connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename="
-                + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
+            SqlConnection mycon = new SqlConnection(
+            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="
+            + Server.MapPath(@"~\App_Data\Kakuro.mdf") +
+            @";Integrated Security=True");
 
-            using (SqlConnection conn = new SqlConnection(connStr))
+            mycon.Open();
+
+            string sql = "SELECT Username, Email, Score, LevelsCompleted FROM Users WHERE Id = @uID";
+            SqlCommand mycmd = new SqlCommand(sql, mycon);
+            mycmd.Parameters.AddWithValue("@uID", userId);
+
+            SqlDataReader reader = mycmd.ExecuteReader();
+
+            if (reader.Read())
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand(
-                    "SELECT Username, Email, Score, LevelsCompleted FROM Users WHERE Id = @uID", conn))
-                {
-                    cmd.Parameters.AddWithValue("@uID", userId);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            string username = reader["Username"].ToString();
-                            string email = reader["Email"].ToString();
-                            int score = (int)reader["Score"];
-                            int levelsCompleted = (int)reader["LevelsCompleted"];
+                string username = reader["Username"].ToString();
+                string email = reader["Email"].ToString();
+                int score = (int)reader["Score"];
+                int levelsCompleted = (int)reader["LevelsCompleted"];
 
-                            lblInitial.Text = username.Substring(0, 1).ToUpper();
-                            lblUsername.Text = username;
-                            lblEmail.Text = email;
-                            lblScore.Text = score.ToString();
-                            lblLevelsCompleted.Text = levelsCompleted.ToString();
-                        }
-                    }
-                }
+                lblInitial.Text = username.Substring(0, 1).ToUpper();
+                lblUsername.Text = username;
+                lblEmail.Text = email;
+                lblScore.Text = score.ToString();
+                lblLevelsCompleted.Text = levelsCompleted.ToString();
             }
-        }
 
-        protected void btnBack_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("~/Views/Home.aspx");
+            reader.Close();
+            mycon.Close();
         }
-<<<<<<< HEAD
-=======
-
-        protected void btnLogout_Click(object sender, EventArgs e)
-        {
-            Session.Clear();
-            Session.Abandon();
-            Response.Redirect("~/Views/Login.aspx");
-        }
->>>>>>> 6afbe3f89885402e0a065e64d894f1def0b613d9
     }
 }
