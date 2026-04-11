@@ -11,7 +11,7 @@ namespace Kakuro.Views
 {
 
 
-    public partial class Levels
+    public partial class SelectConfigurations
     {
 
         /// <summary>
@@ -33,102 +33,138 @@ namespace Kakuro.Views
         protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
         /// <summary>
-        /// pnlLevels control.
+        /// btnSize4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlLevels;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize4;
 
         /// <summary>
-        /// btn25 control.
+        /// btnSize5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn25;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize5;
 
         /// <summary>
-        /// btn26 control.
+        /// btnSize6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn26;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize6;
 
         /// <summary>
-        /// btn27 control.
+        /// btnSize7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn27;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize7;
 
         /// <summary>
-        /// btn28 control.
+        /// btnSize8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn28;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize8;
 
         /// <summary>
-        /// btn29 control.
+        /// btnSize9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn29;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize9;
 
         /// <summary>
-        /// btn30 control.
+        /// btnSize10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn30;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize10;
 
         /// <summary>
-        /// btn31 control.
+        /// btnEasy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn31;
+        protected global::System.Web.UI.WebControls.Button btnEasy;
 
         /// <summary>
-        /// btn32 control.
+        /// btnMedium control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn32;
+        protected global::System.Web.UI.WebControls.Button btnMedium;
 
         /// <summary>
-        /// btn33 control.
+        /// btnHard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn33;
+        protected global::System.Web.UI.WebControls.Button btnHard;
 
         /// <summary>
-        /// btn34 control.
+        /// btnCreate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn34;
+        protected global::System.Web.UI.WebControls.Button btnCreate;
+
+        /// <summary>
+        /// hfSizeX control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfSizeX;
+
+        /// <summary>
+        /// hfSizeY control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfSizeY;
+
+        /// <summary>
+        /// hfDiff control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfDiff;
+
+        /// <summary>
+        /// lblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }

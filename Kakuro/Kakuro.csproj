@@ -120,6 +120,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+
+
+    <Content Include="Content\Configurations.css" />
+    <Content Include="Content\Levels.css" />
+    <Content Include="Views\Gameplay.aspx" />
+    <Content Include="Views\About.aspx" />
+
     <Content Include="App_Data\Kakuro.mdf" />
     <Content Include="App_Data\Kakuro_log.ldf">
       <DependentUpon>Kakuro.mdf</DependentUpon>
@@ -210,7 +217,11 @@
     <Content Include="Scripts\WebForms\WebForms.js" />
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
+
     <Content Include="Views\SelectConfiguration.aspx" />
+
+    <Content Include="Views\SelectConfigurations.aspx" />
+
     <Content Include="Views\Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -306,12 +317,20 @@
     <Compile Include="Views\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+
     <Compile Include="Views\SelectConfiguration.aspx.cs">
       <DependentUpon>SelectConfiguration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\SelectConfiguration.aspx.designer.cs">
-      <DependentUpon>SelectConfiguration.aspx</DependentUpon>
+	  <Compile Include="Views\SelectConfiguration.aspx.designer.cs">
+		  <DependentUpon>SelectConfiguration.aspx</DependentUpon>
+	  </Compile>
+    <Compile Include="Views\SelectConfigurations.aspx.cs">
+      <DependentUpon>SelectConfigurations.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\SelectConfigurations.aspx.designer.cs">
+      <DependentUpon>SelectConfigurations.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

@@ -16,12 +16,16 @@ namespace Kakuro.Views
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            Session["MemberID"] = 1; // Temporary for testing, should be set during login
+            if (Session["MemberID"] == null)
+            {
+                Response.Redirect("~/Views/Login.aspx");
+                return;
+            }
 
             connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
             sqlm = new SQLManager(connStr);
 
-            int userCurrentLevel = sqlm.GetCompletedLevelsCount(Convert.ToInt32(Session["MemberID"]))+1;
+            int userCurrentLevel = sqlm.GetCompletedLevelsCount(Convert.ToInt32(Session["MemberID"])) + 1;
 
             // change it back to i <= 11 after levels fully created
             for (int i = 1; i <= 10; i++)
@@ -35,7 +39,7 @@ namespace Kakuro.Views
                     btn.Enabled = (i == userCurrentLevel);
                 }
             } //Locked || Unlocked lvl 
-        }   
+        }
 
         protected void btn_Click(object sender, EventArgs e)
         {
@@ -45,6 +49,13 @@ namespace Kakuro.Views
                 Session["LvlBoardID"] = (int)(Convert.ToInt32(btn.Text) + 24);
                 Response.Redirect("~/Views/Gameplay.aspx");
             }
+        }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("~/Views/Login.aspx");
         }
     }
 }

@@ -63,5 +63,15 @@ namespace Kakuro.Views
         {
             Response.Redirect("~/Views/Home.aspx");
         }
+<<<<<<< HEAD
+=======
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("~/Views/Login.aspx");
+        }
+>>>>>>> 6afbe3f89885402e0a065e64d894f1def0b613d9
     }
 }
