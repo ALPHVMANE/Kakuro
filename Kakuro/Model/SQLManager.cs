@@ -44,6 +44,8 @@ namespace Kakuro.Model
         {
             using (SqlConnection conn = new SqlConnection(cStr))
             {
+
+               
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand("INSERT INTO GameState (UserID, BoardID, Status, Score, Errors) VALUES (@uID, @bID, 0, 0, 0)", conn))
                 {
@@ -217,10 +219,34 @@ namespace Kakuro.Model
             }
         }
 
-       public Board RNGClues(int puzzleId, int sizeX, int sizeY, string difficulty)
+        public Board FetchTemplate(int size, string difficulty)
         {
-            RNGController rngCrontroller = new RNGController(sizeX, sizeY);
-            return rngCrontroller.GenerateBoard(puzzleId, difficulty);
+            using (SqlConnection conn = new SqlConnection(cStr))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand(
+                    "SELECT TOP 1 * FROM Board WHERE Id > 34 AND SizeX = @size AND SizeY = @size " +
+                    "AND Difficulty = @diff ORDER BY NEWID()", conn))
+                {
+                    cmd.Parameters.AddWithValue("@size", size);
+                    cmd.Parameters.AddWithValue("@diff", difficulty);
+
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        if (!r.Read()) return null;
+
+                        int bID = (int)r["Id"];
+                        int sx = (int)r["SizeX"];
+                        int sy = (int)r["SizeY"];
+
+                        board = new Board(bID, sx, sy, difficulty, new Cell[sx, sy]);
+                        r.Close();
+                        FetchCells(bID, conn);
+                    }
+                }
+            }
+            return board;
         }
 
         // updates the levels if correct
