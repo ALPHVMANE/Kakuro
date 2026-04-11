@@ -7,83 +7,65 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Kakuro
+namespace Kakuro.Views
 {
 
 
-    public partial class SiteMaster
+    public partial class Profile
     {
 
         /// <summary>
-        /// navLevels control.
+        /// lblInitial control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor navLevels;
+        protected global::System.Web.UI.WebControls.Label lblInitial;
 
         /// <summary>
-        /// navRNG control.
+        /// lblUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor navRNG;
+        protected global::System.Web.UI.WebControls.Label lblUsername;
 
         /// <summary>
-        /// navProfile control.
+        /// lblEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navProfile;
+        protected global::System.Web.UI.WebControls.Label lblEmail;
 
         /// <summary>
-        /// navLogout control.
+        /// lblLevelsCompleted control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navLogout;
+        protected global::System.Web.UI.WebControls.Label lblLevelsCompleted;
 
         /// <summary>
-        /// btnLogout control.
+        /// lblScore control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
+        protected global::System.Web.UI.WebControls.Label lblScore;
 
         /// <summary>
-        /// navLogin control.
+        /// btnBack control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navLogin;
-
-        /// <summary>
-        /// navRegister control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navRegister;
-
-        /// <summary>
-        /// MainContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Button btnBack;
     }
 }

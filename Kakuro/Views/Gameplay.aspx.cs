@@ -181,6 +181,7 @@ namespace Kakuro
                     row.Cells.Add(tableCell);
                 }
                 KakuroTable.Rows.Add(row);
+
             }
         }
 
