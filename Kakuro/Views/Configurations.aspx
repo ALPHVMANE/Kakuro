@@ -2,8 +2,6 @@
 
 <asp:Content ID="CustomContent" ContentPlaceHolderID="MainContent" runat="server">
         <link href="../Content/Selections.css" runat="server" rel="stylesheet" type="text/css" />
-        <asp:HiddenField ID="hfGridState" runat="server" />
-        <asp:HiddenField ID="hfPaintMode" runat="server" Value="black" />
 
         <div class="wrap">
           <h2 class="sr-only">Kakuro game setup — choose grid size, difficulty, and customize your board template.</h2>
@@ -25,7 +23,6 @@
               <div class="diff-options">
 
                 <asp:LinkButton ID="lnkEasy" OnClick="SelectDiff_Click" runat="server" CssClass="diff-btn" CommandArgument="easy">
-
                   <div class="diff-name">Easy</div>
                   <div class="diff-desc">More white cells, gentle clue density</div>
                   <div class="diff-pips">
@@ -64,23 +61,24 @@
 
               <asp:LinkButton ID="lnkGenerate" runat="server" CssClass="gen-btn"
                 Enabled="false" OnClick="GenerateGrid_Click">
-                Generate grid
+                Custom Grid
+              </asp:LinkButton>
+
+              <asp:LinkButton ID="lnkSkip" runat="server" CssClass="gen-btn"
+                OnClick="lnkSkip_Click" Enabled="false">
+                Skip Custom Creation
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                   <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
               </asp:LinkButton>
 
             </asp:Panel>
+
 
           </asp:Panel>
 
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
           <asp:UpdatePanel ID="staticPnl" runat="server">
-               <Triggers>
-                   <asp:AsyncPostBackTrigger ControlID="btnToolBlack" />
-                   <asp:AsyncPostBackTrigger ControlID="btnToolWhite" />
-                 </Triggers>
-
                <ContentTemplate>
                     <asp:Panel ID="previewWrap" runat="server" CssClass="grid-preview-wrap" Visible="false">
                         <div class="grid-preview-header">
@@ -101,7 +99,7 @@
                       <div class="grid-note">Click any cell to toggle between white (entry) and black (block)</div>
 
                       <div class="action-row">
-                          <asp:LinkButton ID="btnRegen" runat="server" CssClass="action-btn" OnClick="GenerateGrid_Click">Regenerate</asp:LinkButton>
+                        
                           <asp:LinkButton ID="btnSave" runat="server" CssClass="action-btn primary" OnClick="SaveTemplate_Click">Save template</asp:LinkButton>
                       </div>
                     </asp:Panel>

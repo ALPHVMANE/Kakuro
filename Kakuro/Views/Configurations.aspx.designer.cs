@@ -15,24 +15,6 @@ namespace Kakuro.Views
     {
 
         /// <summary>
-        /// hfGridState control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfGridState;
-
-        /// <summary>
-        /// hfPaintMode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfPaintMode;
-
-        /// <summary>
         /// pnlConfig control.
         /// </summary>
         /// <remarks>
@@ -114,6 +96,15 @@ namespace Kakuro.Views
         protected global::System.Web.UI.WebControls.LinkButton lnkGenerate;
 
         /// <summary>
+        /// lnkSkip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkSkip;
+
+        /// <summary>
         /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
@@ -175,15 +166,6 @@ namespace Kakuro.Views
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlKakuroGrid;
-
-        /// <summary>
-        /// btnRegen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnRegen;
 
         /// <summary>
         /// btnSave control.

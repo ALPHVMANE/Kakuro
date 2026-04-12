@@ -217,12 +217,6 @@ namespace Kakuro.Model
             }
         }
 
-       public Board RNGClues(int puzzleId, int sizeX, int sizeY, string difficulty)
-        {
-            RNGController rngCrontroller = new RNGController(sizeX, sizeY);
-            return rngCrontroller.GenerateBoard(puzzleId, difficulty);
-        }
-
         // updates the levels if correct
         public void CompletedLevel(int uID, int boardID)
         {

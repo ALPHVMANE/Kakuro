@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Views/Site.Master" CodeBehind="Gameplay.aspx.cs" Inherits="Kakuro.Gameplay" %>
 
 <asp:Content ID="GameplayContent" ContentPlaceHolderID="MainContent" runat="server">
-      <link href="../Content/Gameplay.css" runat="server" rel="stylesheet" type="text/css" />
+      <link href="../Content/Gaemplay.css" runat="server" rel="stylesheet" type="text/css" />
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
