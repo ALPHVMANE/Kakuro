@@ -23,7 +23,6 @@ namespace Kakuro
 
             if (!IsPostBack)
             {
-                Session["MemberID"] = 1; //temp
 
                 int boardID = (int)Session["LvlBoardID"];
 

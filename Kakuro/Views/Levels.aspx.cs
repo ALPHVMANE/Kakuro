@@ -16,8 +16,6 @@ namespace Kakuro.Views
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            Session["MemberID"] = 1; // Temporary for testing, should be set during login
-
             connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
             sqlm = new SQLManager(connStr);
 
