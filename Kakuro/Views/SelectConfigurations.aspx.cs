@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace Kakuro.Views
 {
-    public partial class SelectConfiguration : System.Web.UI.Page
+    public partial class SelectConfigurations : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -109,24 +106,8 @@ namespace Kakuro.Views
                 return;
             }
 
-            int size = int.Parse(sizeX);
-            bool valid = (size <= 5 && diff == "Easy") || (size >= 6 && size <= 8 && (diff == "Easy" || diff == "Medium")) ||
-                (size >= 9 && (diff == "Easy" || diff == "Medium" || diff == "Hard"));
-
-            if (!valid) 
-            {
-                lblError.Text = "Invalid size and difficulty combination";
-                lblError.Visible = true;
-                return;
-            }
-
-            Session["isRNG"] = true;
-            Session["RNGSizeX"] = size;
-            Session["RNGSizeY"] = int.Parse(sizeY);
-            Session["RNGDifficulty"] = diff;
-            Session["LvlBoardID"] = null;
-
-            Response.Redirect("~/Views/Gameplay/aspx");
+            //Test (change later)
+            Response.Redirect("Home.aspx");
         }
 
         protected void btnLogout_Click(object sender, EventArgs e)

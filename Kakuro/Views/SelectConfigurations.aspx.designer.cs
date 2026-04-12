@@ -11,7 +11,7 @@ namespace Kakuro.Views
 {
 
 
-    public partial class SelectConfiguration
+    public partial class SelectConfigurations
     {
 
         /// <summary>

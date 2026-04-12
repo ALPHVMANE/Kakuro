@@ -34,5 +34,11 @@ namespace Kakuro.Model
 
             return currentBoard;
         }
+
+        public Board initRNGBoard(int puzzleId, int sizeX, int sizeY, string difficulty)
+        {
+            return sql.RNGClues(puzzleId, sizeX, sizeY, difficulty);
+        }
+
     }
 }

@@ -15,7 +15,7 @@
 </head>
 <body>
     <form runat="server">
-
+        
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" runat="server" href="~/">Kakuro</a>
@@ -28,11 +28,15 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/About">About</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Contact">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Levels">Levels</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Leaderboard">Leaderboard</a></li>
+                        <li class="nav-item"><a id="navLevels" class="nav-link" runat="server" href="~/Views/Levels">Levels</a></li>
+                        <li class="nav-item"><a id="navRNG" class="nav-link" runat="server" href="~/Views/SelectConfiguration">Play</a></li>
                     </ul>
                     <ul class="navbar-nav flex-grow-2">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Login">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Register">Register</a></li>
+                        <li id="navProfile" class="nav-item" runat="server" visible="false"><a class="nav-link" runat="server" href="~/Views/Profile">Profile</a></li>
+                        <li id="navLogout" class="nav-item" runat="server" visisble="false"><asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" OnClick="btnLogout_Click">Logout</asp:LinkButton></li>
+                        <li id="navLogin" class="nav-item" runat="server"><a class="nav-link" runat="server" href="~/Views/Login">Login</a></li>
+                        <li id="navRegister" class="nav-item" runat="server"><a class="nav-link" runat="server" href="~/Views/Register">Register</a></li>
                     </ul>
                 </div>
             </div>

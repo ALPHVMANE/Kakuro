@@ -1,4 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SelectConfiguration.aspx.cs" Inherits="Kakuro.Views.SelectConfiguration" %>
+﻿<%@ Page Title="Select Configuration" Language="C#" AutoEventWireup="true"
+    CodeBehind="SelectConfigurations.aspx.cs"
+    Inherits="Kakuro.Views.SelectConfigurations" %>
 
 <!DOCTYPE html>
 

@@ -24,6 +24,12 @@ namespace Kakuro
             if (!IsPostBack)
             {
 
+                if (Session["lvlBoardID"] == null || Session["MemberID"] == null)
+                {
+                    Response.Redirect("~/Views/Levels.aspx");
+                    return;
+                }
+
                 int boardID = (int)Session["LvlBoardID"];
 
 
@@ -47,6 +53,24 @@ namespace Kakuro
             else
             {
                 Response.Write("<script>alert('Unable to load board.')</script>");
+            }
+
+            bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
+
+            if(isRNG)
+            {
+                int sizeX = (int)Session["RNGSizeX"];
+                int sizeY = (int)Session["RNGSizeY"];
+                string diff = Session["RNGDifficulty"]?.ToString() ?? "Medium";
+
+                board = pm.initRNGBoard(0, sizeX, sizeY, diff);
+                Session["CurrentBoard"] = board;
+            }
+            else
+            {
+                int boardID = (int)Session["LvlBoardID"];
+                board = pm.initBoard(boardID, (int)Session["MemberID"]);
+                if (board != null) Session["CurrentBoard"] = board;
             }
 
         }
@@ -88,6 +112,12 @@ namespace Kakuro
             {
                 ResultLabel.Text = "Congratulations! You solved the puzzle!";
                 ResultLabel.ForeColor = System.Drawing.Color.Green;
+                SQLManager sqlm = new SQLManager(connStr);
+                sqlm.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
+
+                // redirect to next level or back to level select
+                Session["LvlBoardID"] = null;
+                Response.Redirect("~/Views/Levels.aspx");
             }
         }
 
@@ -150,6 +180,7 @@ namespace Kakuro
                     row.Cells.Add(tableCell);
                 }
                 KakuroTable.Rows.Add(row);
+
             }
         }
 
