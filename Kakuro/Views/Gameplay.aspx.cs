@@ -57,21 +57,21 @@ namespace Kakuro
 
             bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
 
-            if(isRNG)
-            {
-                int sizeX = (int)Session["RNGSizeX"];
-                int sizeY = (int)Session["RNGSizeY"];
-                string diff = Session["RNGDifficulty"]?.ToString() ?? "Medium";
+            //if(isRNG)
+            //{
+            //    int sizeX = (int)Session["RNGSizeX"];
+            //    int sizeY = (int)Session["RNGSizeY"];
+            //    string diff = Session["RNGDifficulty"]?.ToString() ?? "Medium";
 
-                board = pm.initRNGBoard(0, sizeX, sizeY, diff);
-                Session["CurrentBoard"] = board;
-            }
-            else
-            {
-                int boardID = (int)Session["LvlBoardID"];
-                board = pm.initBoard(boardID, (int)Session["MemberID"]);
-                if (board != null) Session["CurrentBoard"] = board;
-            }
+            //    board = pm.initRNGBoard(0, sizeX, sizeY, diff);
+            //    Session["CurrentBoard"] = board;
+            //}
+            //else
+            //{
+            //    int boardID = (int)Session["LvlBoardID"];
+            //    board = pm.initBoard(boardID, (int)Session["MemberID"]);
+            //    if (board != null) Session["CurrentBoard"] = board;
+            //}
 
         }
 
