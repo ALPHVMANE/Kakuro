@@ -328,6 +328,13 @@
       <DependentUpon>Selection.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Views\SelectConfiguration.aspx.cs">
+          <DependentUpon>SelectConfiguration.aspx</DependentUpon>
+          <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\SelectConfiguration.aspx.designer.cs">
+    		  <DependentUpon>SelectConfiguration.aspx</DependentUpon>
+	  </Compile>
     <Compile Include="Views\Selection.aspx.designer.cs">
       <DependentUpon>Selection.aspx</DependentUpon>
     </Compile>
