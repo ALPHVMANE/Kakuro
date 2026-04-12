@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,13 +12,12 @@ namespace Kakuro.Views
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            BuildGridOptions(); // Your existing method
+
+            if (IsPostBack && !string.IsNullOrEmpty(hfGridState.Value))
             {
-                BuildGridOptions();
-            }
-            else
-            {
-                RebuildGridOptions();
+                // Re-render the grid every postback to maintain event wireups
+                RenderKakuroGrid();
             }
 
             UpdateSummary();
@@ -129,17 +129,93 @@ namespace Kakuro.Views
 
         protected void GenerateGrid_Click(object sender, EventArgs e)
         {
-            string size = Session["SelectedSize"] as string;
-            string diff = Session["SelectedDiff"] as string;
+            int n = int.Parse(Session["SelectedSize"].ToString().Split('x')[0]);
+            string diff = Session["SelectedDiff"].ToString();
 
-            previewWrap.Visible = true;
-            previewWrap.Controls.Clear();
+            double blackRatio = diff == "easy" ? 0.22 : diff == "medium" ? 0.30 : 0.38;
+            Random rand = new Random();
 
-            var placeholder = new System.Web.UI.WebControls.Label
+            var newState = new List<List<string>>();
+
+            for (int r = 0; r < n; r++)
             {
-                Text = $"Grid: {size} | Difficulty: {diff}"
-            };
-            previewWrap.Controls.Add(placeholder);
+                var row = new List<string>();
+                for (int c = 0; c < n; c++)
+                {
+                    if (r == 0 || c == 0) row.Add("clue");
+                    else row.Add(rand.NextDouble() < blackRatio ? "black" : "white");
+                }
+                newState.Add(row);
+            }
+
+            // Save to hidden field as JSON
+            hfGridState.Value = new JavaScriptSerializer().Serialize(newState);
+            previewWrap.Visible = true;
+            RenderKakuroGrid();
+        }
+
+        private void RenderKakuroGrid()
+        {
+            var gridData = new JavaScriptSerializer().Deserialize<List<List<string>>>(hfGridState.Value);
+            int n = gridData.Count;
+
+            pnlKakuroGrid.Controls.Clear();
+            pnlKakuroGrid.Style["grid-template-columns"] = $"repeat({n}, 52px)";
+            previewTitle.InnerText = $"Your template — {n}×{n}";
+
+            for (int r = 0; r < n; r++)
+            {
+                for (int c = 0; c < n; c++)
+                {
+                    string type = gridData[r][c];
+                    LinkButton cell = new LinkButton();
+                    cell.CssClass = "k-cell " + (type == "black" ? "black-cell" : type == "clue" ? "clue-cell" : "");
+                    cell.ID = $"cell_{r}_{c}";
+                    cell.CommandArgument = $"{r},{c}";
+
+                    if (type != "clue")
+                    {
+                        cell.Click += Cell_Click;
+                    }
+                    else if (r > 0 && c > 0)
+                    {
+                        cell.Controls.Add(new LiteralControl("<div class='clue-across'>–</div><div class='clue-down'>–</div>"));
+                    }
+
+                    pnlKakuroGrid.Controls.Add(cell);
+                }
+            }
+        }
+
+        protected void Cell_Click(object sender, EventArgs e)
+        {
+            var btn = (LinkButton)sender;
+            string[] coords = btn.CommandArgument.Split(',');
+            int r = int.Parse(coords[0]);
+            int c = int.Parse(coords[1]);
+
+            var gridData = new JavaScriptSerializer().Deserialize<List<List<string>>>(hfGridState.Value);
+
+            // Toggle based on paint mode
+            gridData[r][c] = hfPaintMode.Value;
+
+            hfGridState.Value = new JavaScriptSerializer().Serialize(gridData);
+            RenderKakuroGrid(); // Refresh UI
+        }
+
+        protected void SetPaintMode_Click(object sender, EventArgs e)
+        {
+            string mode = ((Button)sender).CommandArgument;
+            hfPaintMode.Value = mode;
+
+            // Update UI Classes
+            btnToolBlack.CssClass = mode == "black" ? "tool-btn active" : "tool-btn";
+            btnToolWhite.CssClass = mode == "white" ? "tool-btn active" : "tool-btn";
+        }
+
+        protected void SaveTemplate_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 

@@ -2,6 +2,8 @@
 
 <asp:Content ID="CustomContent" ContentPlaceHolderID="MainContent" runat="server">
         <link href="../Content/Selections.css" runat="server" rel="stylesheet" type="text/css" />
+        <asp:HiddenField ID="hfGridState" runat="server" />
+        <asp:HiddenField ID="hfPaintMode" runat="server" Value="black" />
 
         <div class="wrap">
           <h2 class="sr-only">Kakuro game setup — choose grid size, difficulty, and customize your board template.</h2>
@@ -72,7 +74,39 @@
 
           </asp:Panel>
 
-          <asp:Panel ID="previewWrap" runat="server" CssClass="grid-preview-wrap" Visible="false" />
+            <asp:ScriptManager ID="ScriptManager1" runat="server" />
+          <asp:UpdatePanel ID="staticPnl" runat="server">
+               <Triggers>
+                   <asp:AsyncPostBackTrigger ControlID="btnToolBlack" />
+                   <asp:AsyncPostBackTrigger ControlID="btnToolWhite" />
+                 </Triggers>
 
+               <ContentTemplate>
+                    <asp:Panel ID="previewWrap" runat="server" CssClass="grid-preview-wrap" Visible="false">
+                        <div class="grid-preview-header">
+                          <div class="grid-preview-title" id="previewTitle" runat="server"></div>
+                          <div class="legend">
+                              <div class="legend-item"><div class="legend-box black"></div> clue</div>
+                              <div class="legend-item"><div class="legend-box white"></div> entry</div>
+                          </div>
+                      </div>
+
+                      <div class="toolbar">
+                          <asp:Button ID="btnToolBlack" runat="server" Text="Paint black" CssClass="tool-btn active" OnClick="SetPaintMode_Click" CommandArgument="black" />
+                          <asp:Button ID="btnToolWhite" runat="server" Text="Paint white" CssClass="tool-btn" OnClick="SetPaintMode_Click" CommandArgument="white" />
+                      </div>
+
+                      <asp:Panel ID="pnlKakuroGrid" runat="server" CssClass="kakuro-grid" />
+
+                      <div class="grid-note">Click any cell to toggle between white (entry) and black (block)</div>
+
+                      <div class="action-row">
+                          <asp:LinkButton ID="btnRegen" runat="server" CssClass="action-btn" OnClick="GenerateGrid_Click">Regenerate</asp:LinkButton>
+                          <asp:LinkButton ID="btnSave" runat="server" CssClass="action-btn primary" OnClick="SaveTemplate_Click">Save template</asp:LinkButton>
+                      </div>
+                    </asp:Panel>
+               </ContentTemplate>
+          </asp:UpdatePanel>
+ 
         </div>
 </asp:Content>

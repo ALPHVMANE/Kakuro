@@ -468,7 +468,7 @@
     border: 2px solid var(--paper-grid);
     border-radius: 10px;
     overflow: hidden;
-    width: fit-content;
+    width: max-content;
     margin: 0 auto;
 }
 

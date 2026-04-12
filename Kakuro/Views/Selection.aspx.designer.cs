@@ -11,187 +11,142 @@ namespace Kakuro.Views
 {
 
 
-    public partial class Configurations
+    public partial class Selection
     {
 
         /// <summary>
-        /// hfGridState control.
+        /// btnSize4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfGridState;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize4;
 
         /// <summary>
-        /// hfPaintMode control.
+        /// btnSize5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfPaintMode;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize5;
 
         /// <summary>
-        /// pnlConfig control.
+        /// btnSize6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlConfig;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize6;
 
         /// <summary>
-        /// gridOptions control.
+        /// btnSize7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl gridOptions;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize7;
 
         /// <summary>
-        /// lnkEasy control.
+        /// btnSize8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkEasy;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize8;
 
         /// <summary>
-        /// lnkMedium control.
+        /// btnSize9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkMedium;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize9;
 
         /// <summary>
-        /// lnkHard control.
+        /// btnSize10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkHard;
+        protected global::System.Web.UI.WebControls.LinkButton btnSize10;
 
         /// <summary>
-        /// pnlSummary control.
+        /// btnEasy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlSummary;
+        protected global::System.Web.UI.WebControls.Button btnEasy;
 
         /// <summary>
-        /// tagSize control.
+        /// btnMedium control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label tagSize;
+        protected global::System.Web.UI.WebControls.Button btnMedium;
 
         /// <summary>
-        /// tagDiff control.
+        /// btnHard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label tagDiff;
+        protected global::System.Web.UI.WebControls.Button btnHard;
 
         /// <summary>
-        /// lnkGenerate control.
+        /// btnCreate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkGenerate;
+        protected global::System.Web.UI.WebControls.Button btnCreate;
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// hfSizeX control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.HiddenField hfSizeX;
 
         /// <summary>
-        /// staticPnl control.
+        /// hfSizeY control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel staticPnl;
+        protected global::System.Web.UI.WebControls.HiddenField hfSizeY;
 
         /// <summary>
-        /// previewWrap control.
+        /// hfDiff control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel previewWrap;
+        protected global::System.Web.UI.WebControls.HiddenField hfDiff;
 
         /// <summary>
-        /// previewTitle control.
+        /// lblError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl previewTitle;
-
-        /// <summary>
-        /// btnToolBlack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnToolBlack;
-
-        /// <summary>
-        /// btnToolWhite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnToolWhite;
-
-        /// <summary>
-        /// pnlKakuroGrid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlKakuroGrid;
-
-        /// <summary>
-        /// btnRegen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnRegen;
-
-        /// <summary>
-        /// btnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSave;
+        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }
