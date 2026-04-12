@@ -23,7 +23,6 @@ namespace Kakuro
 
             if (!IsPostBack)
             {
-                Session["MemberID"] = 1; //temp
 
                 if (Session["lvlBoardID"] == null || Session["MemberID"] == null)
                 {

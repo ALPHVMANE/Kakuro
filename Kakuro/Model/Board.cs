@@ -15,22 +15,25 @@ namespace Kakuro.Model
         public Cell[,] Grid { get; set; }
 
         // Single flexible constructor using optional parameters
-        public Board(int id, int sizeX, int sizeY, string difficulty, Cell[,] grid, int score = 0)
+        public Board(int id, int sizeX, int sizeY, string difficulty, Cell[,] grid)
         {
             Id = id;
             SizeX = sizeX;
             SizeY = sizeY;
             Difficulty = difficulty;
             Grid = grid;
-            Score = score;
+            Score = 0;
         }
 
-        // Example of a computed property for scoring
-//         public int CalculatedScore => CalculateScore();
-
-        //private int calculateScore() { 
-        //    //Coming Soon...
-        //}
+        public Board(int id, int sizeX, int sizeY, string difficulty)
+        {
+            Id = id;
+            SizeX = sizeX;
+            SizeY = sizeY;
+            Difficulty = difficulty;
+            Grid = new Cell[sizeX, sizeY];
+            Score = 0;
+        }
 
     }
 }

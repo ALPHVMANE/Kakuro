@@ -31,6 +31,7 @@ textarea {
         border: 2px solid #444 !important; /* Slightly thicker border for definition */
         overflow: hidden;
     }
+
         .kakuro-grid td.empty-cell {
             background-color: #1e293b !important;
             border: 2px solid #444 !important;

@@ -77,7 +77,7 @@ namespace Kakuro.Model
                             string diff = rSess["Difficulty"].ToString();
                             int score = rSess["SavedScore"] == DBNull.Value ? 0 : (int)rSess["SavedScore"];
 
-                            board = new Board(bID, sx, sy, diff, new Cell[sx, sy], score);
+                            board = new Board(bID, sx, sy, diff, new Cell[sx, sy]);
                             rSess.Close();
 
                             if (board != null)
@@ -153,7 +153,7 @@ namespace Kakuro.Model
                         int score = (int)r["Score"];
 
 
-                        board = new Board(bID, sx, sy, diff, new Cell[sx, sy], score);
+                        board = new Board(bID, sx, sy, diff, new Cell[sx, sy]);
                         r.Close();
                         FetchCells(bID, conn);
                     }

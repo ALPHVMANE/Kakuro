@@ -1,194 +1,175 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using SQLitePCL;
+using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Org.BouncyCastle.Security;
 
 namespace Kakuro.Model
 {
     public class RNGController
     {
-        private int sizeX;
-        private int sizeY;
-        private Random rng = new Random();
-        private Cell[,] grid;
+        public Board tempBoard;
+        public Board bTemplate;
 
-        public RNGController(int sizeX, int sizeY)
+        private SecureRandom rng;
+
+        private int[,] cells;
+
+        public RNGController(Board board)
         {
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
-            this.grid = new Cell[sizeX, sizeY];
+            tempBoard = new Board(board.Id, board.SizeX, board.SizeY, board.Difficulty);
+            bTemplate = board;
+            rng = new SecureRandom();
+            cells = new int[board.SizeX, board.SizeY];
+
+            cells = InputGenerator();
         }
 
-        public Board GenerateBoard(int puzzleId, string difficulty)
+        private int[,] InputGenerator()
         {
-            RNGEntryCells();
-            CreateClueCells();
-            return addCellsToBoard(puzzleId, difficulty);
-        }
 
-        private void RNGEntryCells()
-        {
-            for (int x = 0; x < sizeX; x++)
+
+            foreach (Cell cell in bTemplate.Grid)
             {
-                for (int y = 0; y < sizeY; y++) 
+                if (!(cell is Entry))
                 {
-                    bool isEdge = (x == 0 || y == 0);
-                    if (isEdge) 
+                    cells[cell.X, cell.Y] = -1;
+                }
+            }
+
+            //populate entire grid
+            for (int x = 0; x < cells.GetLength(0); x++)
+            {
+                for (int y = 0; y < cells.GetLength(1); y++)
+                {
+                    cells[x, y] = rng.Next(1, 9);
+                }
+            }
+
+            // Collect Entry positions in traversal order (row-major)
+      
+            var entryPositions = new List<(int x, int y)>();
+            for (int y = 0; y < bTemplate.SizeY; y++)
+                for (int x = 0; x < bTemplate.SizeX; x++)
+                    if (bTemplate.Grid[x, y] is Entry)
+                        entryPositions.Add((x, y));
+
+            // Backtracking fill
+            bool solved = Backtrack(entryPositions, 0);
+
+            if (!solved)
+                throw new InvalidOperationException(
+                    "Could not fill the board with valid digits. " +
+                    "Check that your board layout has no impossible runs.");
+
+            // Write filled values back into tempBoard's Entry cells
+            for (int y = 0; y < tempBoard.SizeY; y++)
+                for (int x = 0; x < tempBoard.SizeX; x++)
+                    if (tempBoard.Grid[x, y] is Entry entry && cells[x, y] > 0)
+                        entry.CorrectValue = cells[x, y];
+
+            // Recalculate clue sums from the filled grid
+            RecalculateClues();
+
+            return cells;
+        }
+
+        private bool Backtrack(List<(int x, int y)> positions, int index)
+        {
+            if (index == positions.Count)
+                return true; // all cells filled successfully
+
+            var (x, y) = positions[index];
+
+            // Shuffle digits
+            var candidates = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            Shuffle(candidates);
+
+            foreach (int value in candidates)
+            {
+                if (ValidatePlacement(x, y, value))
+                {
+                    cells[x, y] = value;
+
+                    if (Backtrack(positions, index + 1))
+                        return true;
+
+                    cells[x, y] = -1; // undo and try next
+                }
+            }
+
+            return false; // trigger backtrack to previous cell
+        }
+
+        private bool ValidatePlacement(int x, int y, int value)
+        {
+            // Check horizontal run (same row, scan left and right from (x,y))
+            for (int cx = x - 1; cx >= 0; cx--)
+            {
+                if (!(bTemplate.Grid[cx, y] is Entry)) break;
+                if (cells[cx, y] == value) return false;
+            }
+            for (int cx = x + 1; cx < bTemplate.SizeX; cx++)
+            {
+                if (!(bTemplate.Grid[cx, y] is Entry)) break;
+                if (cells[cx, y] == value) return false;
+            }
+
+            // Check vertical run (same column, scan up and down from (x,y))
+            for (int cy = y - 1; cy >= 0; cy--)
+            {
+                if (!(bTemplate.Grid[x, cy] is Entry)) break;
+                if (cells[x, cy] == value) return false;
+            }
+            for (int cy = y + 1; cy < bTemplate.SizeY; cy++)
+            {
+                if (!(bTemplate.Grid[x, cy] is Entry)) break;
+                if (cells[x, cy] == value) return false;
+            }
+
+            return true;
+        }
+
+        private void RecalculateClues()
+        {
+            for (int y = 0; y < tempBoard.SizeY; y++)
+            {
+                for (int x = 0; x < tempBoard.SizeX; x++)
+                {
+                    if (!(tempBoard.Grid[x, y] is Clue clueCell))
+                        continue;
+
+                    // Horizontal sum: add up the Entry run to the right
+                    int hSum = 0;
+                    for (int cx = x + 1; cx < tempBoard.SizeX; cx++)
                     {
-                        grid[x, y] = new Empty(x, y);
+                        if (!(bTemplate.Grid[cx, y] is Entry)) break;
+                        hSum += cells[cx, y];
                     }
-                    else
+                    clueCell.HorizontalClue = hSum > 0 ? hSum : (int?)null;
+
+                    // Vertical sum: add up the Entry run downward
+                    int vSum = 0;
+                    for (int cy = y + 1; cy < tempBoard.SizeY; cy++)
                     {
-                        grid[x, y] = rng.NextDouble() < 0.65 ? (Cell)new Entry(x, y, 0) : new Empty(x, y);
+                        if (!(bTemplate.Grid[x, cy] is Entry)) break;
+                        vSum += cells[x, cy];
                     }
+                    clueCell.VerticalClue = vSum > 0 ? vSum : (int?)null;
                 }
             }
         }
 
-        private void CreateClueCells()
+        private void Shuffle(List<int> list)
         {
-            AssignEntryValuesForRows();
-            AssignEntryValuesForColumns();
-
-            PlaceClueCells();
-        }
-
-        private void AssignEntryValuesForRows()
-        {
-            for (int y = 1; y < sizeY; y++)
+            for (int i = list.Count - 1; i > 0; i--)
             {
-                int x = 1;
-                while (x < sizeX) 
-                {
-                    if (grid[x, y] is Entry)
-                    {
-                        List<int> runXs = new List<int>();
-                        while (x < sizeX && grid[x, y] is Entry)
-                        {
-                            runXs.Add(x);
-                            x++;
-                        }
-                        AssignUniqueDigits(runXs.Select(rx => (rx, y)).ToList());
-                    }
-                    else
-                    {
-                        x++;
-                    }
-                }
+                int j = rng.Next(i + 1);
+                (list[i], list[j]) = (list[j], list[i]);
             }
         }
-
-        private void AssignEntryValuesForColumns()
-        {
-            for (int x = 1; x < sizeX; x++)
-            {
-                int y = 1;
-                while (y < sizeY)
-                {
-                    if (grid[x, y] is Entry)
-                    {
-                        List<(int cx, int cy)> run = new List<(int, int)>();
-                        while (y < sizeY && grid[x, y] is Entry)
-                        {
-                            run.Add((x, y));
-                            y++;
-                        }
-                        EnsureUniqueInColumn(run);
-                    }
-                    else
-                    {
-                        y++;
-                    }
-                }
-            }
-        }
-
-        private void AssignUniqueDigits(List<(int x, int y)> run)
-        {
-            int len = run.Count;
-            if (len == 0 || len > 9) return;
-
-            List<int> digits = Enumerable.Range(1, 9).OrderBy(_ => rng.Next()).Take(len).ToList();
-            for (int i = 0; i < run.Count; i++) 
-            {
-                ((Entry)grid[run[i].x, run[i].y]).CorrectValue = digits[i];
-            }
-        }
-
-        private void EnsureUniqueInColumn(List<(int x, int y)> run)
-        {
-            int maxTries = 20;
-            while (maxTries-- > 0)
-            {
-                HashSet<int> seen = new HashSet<int>();
-                bool ok = true;
-                foreach (var (cx, cy) in run)
-                {
-                    int v = ((Entry)grid[cx, cy]).CorrectValue;
-                    if (!seen.Add(v)) { ok = false; break; }
-                }
-                if (ok) return;
-
-                AssignUniqueDigits(run);
-            }
-        }
-
-        private void PlaceClueCells()
-        {
-            for (int y = 1; y < sizeY; y++)
-            {
-                for (int x = 1; x < sizeX; x++)
-                {
-                    if (grid[x, y] is Entry && !(grid[x - 1, y] is Entry))
-                    {
-                        int sum = SumRunRight(x, y);
-                        int clueX = x - 1;
-
-                        if (grid[clueX, y] is Clue existingClue)
-                            grid[clueX, y] = new Clue(clueX, y, sum, existingClue.VerticalClue);
-                        else
-                            grid[clueX, y] = new Clue(clueX, y, sum, null);
-                    }
-                }
-            }
-
-            for(int x = 1; x < sizeX; x++)
-            {
-                for(int y = 1; y < sizeY; y++)
-                {
-                    if (grid[x,y] is Entry && !(grid[x,y -1] is Entry))
-                    {
-                        int sum = SumRunDown(x, y);
-                        int clueY = y - 1;
-                        if (grid[x, clueY] is Clue existingClue)
-                            grid[x, clueY] = new Clue(x, clueY, existingClue.HorizontalClue, sum);
-                        else
-                            grid[x, clueY] = new Clue(x, clueY, null, sum);
-                    }
-                }
-            }
-        }
-
-        private int SumRunRight(int startX, int y)
-        {
-            int sum = 0;
-            for (int x = startX; x < sizeX && grid[x, y] is Entry e; x++)
-                sum += e.CorrectValue;
-            return sum;
-        }
-
-        private int SumRunDown(int x, int startY)
-        {
-            int sum = 0;
-            for (int y = startY; y < sizeY && grid[x, y] is Entry e; y++)
-                sum += e.CorrectValue;
-            return sum;
-        }
-
-        private Board addCellsToBoard(int puzzleId, string difficulty)
-        {
-            return new Board(puzzleId, sizeX, sizeY, difficulty, grid);
-        }
-
     }
 }
