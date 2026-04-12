@@ -29,6 +29,8 @@ namespace Kakuro
                 bool tutorialDone = completed >= 10; //change this to match the levels int the other levels are created
                 navLevels.Visible = !tutorialDone;
                 navRNG.Visible = tutorialDone;
+                navHistory.Visible = isLoggedIn;
+                navCustom.Visible = tutorialDone;
             }
             else
             {

@@ -252,8 +252,10 @@ namespace Kakuro.Model
             using (SqlConnection conn = new SqlConnection(cStr))
             {
                 conn.Open();
-                //mark as completed in db
-                using (SqlCommand cmd = new SqlCommand("UPDATE GameState SET Status = 1 WHERE UserID = @uID AND BoardID = @bID", conn))
+                //mark as completed in db and set the score from the Board table
+                using (SqlCommand cmd = new SqlCommand(
+                    "UPDATE GameState SET Status = 1, Score = (SELECT Score FROM Board WHERE Id = @bID) " +
+                    "WHERE UserID = @uID AND BoardID = @bID", conn))
                 {
                     cmd.Parameters.AddWithValue("@uID", uID);
                     cmd.Parameters.AddWithValue("@bID", boardID);
@@ -269,7 +271,8 @@ namespace Kakuro.Model
                     cmd2.ExecuteNonQuery();
                 }
 
-                using (SqlCommand cmd3 = new SqlCommand("UPDATE Users SET Score = Score " +
+                using (SqlCommand cmd3 = new SqlCommand(
+                    "UPDATE Users SET Score = Score + " +
                     "(SELECT Score FROM Board WHERE Id = @bID) " +
                     "WHERE Id = @uID", conn))
                 {
@@ -277,6 +280,70 @@ namespace Kakuro.Model
                     cmd3.Parameters.AddWithValue("@bID", boardID);
                     cmd3.ExecuteNonQuery();
                 }
+            }
+        }
+
+        //====== Custom board insertion ======//
+        public int InsertCustomBoard(Board board, int userId)
+        {
+            using (SqlConnection conn = new SqlConnection(cStr))
+            {
+                conn.Open();
+
+                // Insert board
+                int boardId;
+                using (SqlCommand cmd = new SqlCommand(
+                    "INSERT INTO Board (SizeX, SizeY, Difficulty, Score) " +
+                    "VALUES (@sx, @sy, @diff, 0); SELECT SCOPE_IDENTITY()", conn))
+                {
+                    cmd.Parameters.AddWithValue("@sx", board.SizeX);
+                    cmd.Parameters.AddWithValue("@sy", board.SizeY);
+                    cmd.Parameters.AddWithValue("@diff", board.Difficulty);
+                    boardId = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+
+                // Insert cells
+                for (int y = 0; y < board.SizeY; y++)
+                {
+                    for (int x = 0; x < board.SizeX; x++)
+                    {
+                        var cell = board.Grid[x, y];
+                        using (SqlCommand cmd2 = new SqlCommand(
+                            "INSERT INTO Cells (BoardID, X, Y, CellType, CorrectValue, VerticalClueValue, HorizontalClueValue) " +
+                            "VALUES (@bID, @x, @y, @type, @cv, @vc, @hc)", conn))
+                        {
+                            cmd2.Parameters.AddWithValue("@bID", boardId);
+                            cmd2.Parameters.AddWithValue("@x", x);
+                            cmd2.Parameters.AddWithValue("@y", y);
+
+                            if (cell is Entry entry)
+                            {
+                                cmd2.Parameters.AddWithValue("@type", "Entry");
+                                cmd2.Parameters.AddWithValue("@cv", entry.CorrectValue);
+                                cmd2.Parameters.AddWithValue("@vc", DBNull.Value);
+                                cmd2.Parameters.AddWithValue("@hc", DBNull.Value);
+                            }
+                            else if (cell is Clue clue)
+                            {
+                                cmd2.Parameters.AddWithValue("@type", "Clue");
+                                cmd2.Parameters.AddWithValue("@cv", DBNull.Value);
+                                cmd2.Parameters.AddWithValue("@vc", clue.VerticalClue.HasValue ? (object)clue.VerticalClue.Value : DBNull.Value);
+                                cmd2.Parameters.AddWithValue("@hc", clue.HorizontalClue.HasValue ? (object)clue.HorizontalClue.Value : DBNull.Value);
+                            }
+                            else
+                            {
+                                cmd2.Parameters.AddWithValue("@type", "Empty");
+                                cmd2.Parameters.AddWithValue("@cv", DBNull.Value);
+                                cmd2.Parameters.AddWithValue("@vc", DBNull.Value);
+                                cmd2.Parameters.AddWithValue("@hc", DBNull.Value);
+                            }
+
+                            cmd2.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                return boardId;
             }
         }
 

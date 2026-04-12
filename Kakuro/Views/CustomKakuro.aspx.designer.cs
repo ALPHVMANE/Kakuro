@@ -7,110 +7,83 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Kakuro
+namespace Kakuro.Views
 {
 
 
-    public partial class SiteMaster
+    public partial class CustomKakuro
     {
 
         /// <summary>
-        /// ScripManager1 control.
+        /// TxtSizeX control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScripManager1;
+        protected global::System.Web.UI.WebControls.TextBox TxtSizeX;
 
         /// <summary>
-        /// navLevels control.
+        /// TxtSizeY control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink navLevels;
+        protected global::System.Web.UI.WebControls.TextBox TxtSizeY;
 
         /// <summary>
-        /// navCustom control.
+        /// BtnGenerate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink navCustom;
+        protected global::System.Web.UI.WebControls.Button BtnGenerate;
 
         /// <summary>
-        /// navRNG control.
+        /// ResultLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink navRNG;
+        protected global::System.Web.UI.WebControls.Label ResultLabel;
 
         /// <summary>
-        /// navProfile control.
+        /// EditorPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navProfile;
+        protected global::System.Web.UI.WebControls.Panel EditorPanel;
 
         /// <summary>
-        /// navHistory control.
+        /// EditorTable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navHistory;
+        protected global::System.Web.UI.WebControls.Table EditorTable;
 
         /// <summary>
-        /// navLogout control.
+        /// BtnSavePlay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navLogout;
+        protected global::System.Web.UI.WebControls.Button BtnSavePlay;
 
         /// <summary>
-        /// btnLogout control.
+        /// BtnPreview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
-
-        /// <summary>
-        /// navLogin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navLogin;
-
-        /// <summary>
-        /// navRegister control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl navRegister;
-
-        /// <summary>
-        /// MainContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Button BtnPreview;
     }
 }

@@ -17,7 +17,8 @@ namespace Kakuro
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
+            connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+                Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
             SQLManager sqlm = new SQLManager(connStr);
             PuzzleManager pm = new PuzzleManager(sqlm);
 
@@ -35,7 +36,6 @@ namespace Kakuro
                 {
                     int size = (int)Session["RNGSizeX"];
                     string diff = Session["RNGDifficulty"]?.ToString() ?? "Easy";
-
                     board = pm.initFromTemplate(size, diff);
 
                     if (board != null)
@@ -60,16 +60,16 @@ namespace Kakuro
                     if (board != null)
                         Session["CurrentBoard"] = board;
                 }
-
-                if (board != null)
-                    DisplayBoard();
-                else
-                    Response.Write("<script>alert('Unable to load board.');</script>");
             }
             else
             {
                 board = (Board)Session["CurrentBoard"];
             }
+
+            if (board != null)
+                DisplayBoard();
+            else
+                Response.Write("<script>alert('Unable to load board.');</script>");
         }
 
         //public bool ValidateSolution(Board board, int[,] userInput)
@@ -78,17 +78,43 @@ namespace Kakuro
         //           board.VerticalSegments.All(segment => segment.IsValid());
         //} ==> For rng tables
 
-        protected void btnCheckSolution_Click(object sender, EventArgs e) //Checks for non-dynamic puzzles only
+        private void SaveUserInputToBoard()
+        {
+            for (int i = 0; i < board.SizeY; i++)
+            {
+                for (int j = 0; j < board.SizeX; j++)
+                {
+                    if (board.Grid[j, i] is Entry entry)
+                    {
+                        string cellId = $"cell_{j}_{i}";
+                        // Read raw posted value before table is recreated
+                        string key = Request.Form.AllKeys
+                            .FirstOrDefault(k => k != null && k.EndsWith(cellId));
+                        if (key != null)
+                        {
+                            int val;
+                            if (int.TryParse(Request.Form[key], out val))
+                                entry.CurrentValue = val;
+                        }
+                    }
+                }
+            }
+            Session["CurrentBoard"] = board;
+        }
+
+        protected void btnCheckSolution_Click(object sender, EventArgs e)
         {
             if (board == null)
                 board = (Board)Session["CurrentBoard"];
 
             if (board == null)
             {
-                ResultLabel.Text = "Error: board not loaded. Please refresh";
-                ResultLabel.ForeColor = System.Drawing.Color.Red;
+                ResultLabel.Text = "Error: board not loaded. Please refresh.";
                 return;
             }
+
+            // Save what user typed into the board before table is recreated
+            SaveUserInputToBoard();
 
             bool isCorrect = true;
             bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
@@ -99,15 +125,10 @@ namespace Kakuro
                 {
                     if (board.Grid[j, i] is Entry cell)
                     {
-                        string cellId = $"cell_{j}_{i}";
-
-                        TextBox textBox = (TextBox)KakuroTable.FindControl(cellId);
-
-                        if (textBox == null || textBox.Text != Convert.ToString(cell.CorrectValue))
+                        if (cell.CurrentValue != cell.CorrectValue)
                         {
                             ResultLabel.Text = "Solution is incorrect. Try again!";
                             ResultLabel.ForeColor = System.Drawing.Color.Red;
-                            if (textBox != null) textBox.BackColor = System.Drawing.Color.LightPink;
                             isCorrect = false;
                         }
                     }
@@ -125,8 +146,8 @@ namespace Kakuro
                 }
                 else
                 {
-                    SQLManager sqlm = new SQLManager(connStr);
-                    sqlm.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
+                    SQLManager sqlm2 = new SQLManager(connStr);
+                    sqlm2.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
                     Session["LvlBoardID"] = null;
                     Response.Redirect("~/Views/Levels.aspx");
                 }
@@ -150,6 +171,7 @@ namespace Kakuro
                         TextBox txt = new TextBox
                         {
                             ID = $"cell_{j}_{i}",
+                            ClientIDMode = ClientIDMode.Static,
                             CssClass = "form-control input-cell",
                             MaxLength = 1,
                             // Persist value if it's already in the entry

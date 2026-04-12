@@ -31,10 +31,12 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Leaderboard.aspx">Leaderboard</a></li>
                         <li class="nav-item"><asp:HyperLink ID="navLevels" runat="server" CssClass="nav-link" NavigateUrl="~/Views/Levels" Visible="false">Levels</asp:HyperLink></li>
+                        <li class="nav-item"><asp:HyperLink ID="navCustom" runat="server" CssClass="nav-link" NavigateUrl="~/Views/CustomKakuro" Visible="false">Custom</asp:HyperLink></li>
                         <li class="nav-item"><asp:HyperLink ID="navRNG" runat="server" CssClass="nav-link" NavigateUrl="~/Views/SelectConfiguration" Visible="false">Levels</asp:HyperLink></li>
                     </ul>
                     <ul class="navbar-nav flex-grow-2">
                         <li id="navProfile" class="nav-item" runat="server" visible="false"><a class="nav-link" runat="server" href="~/Views/Profile">Profile</a></li>
+                        <li id="navHistory" class="nav-item" runat="server" visible="false"><a class="nav-link" runat="server" href="~/Views/History">History</a></li>
                         <li id="navLogout" class="nav-item" runat="server" visible="false"><asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" OnClick="btnLogout_Click">Logout</asp:LinkButton></li>
                         <li id="navLogin" class="nav-item" runat="server"><a class="nav-link" runat="server" href="~/Views/Login">Login</a></li>
                         <li id="navRegister" class="nav-item" runat="server"><a class="nav-link" runat="server" href="~/Views/Register">Register</a></li>
