@@ -25,20 +25,11 @@ namespace Kakuro.Model
             rng = new SecureRandom();
             cells = new int[board.SizeX, board.SizeY];
 
-            cells = InputGenerator();
+            InputGenerator();
         }
 
-        private int[,] InputGenerator()
+        private void InputGenerator()
         {
-
-
-            foreach (Cell cell in bTemplate.Grid)
-            {
-                if (!(cell is Entry))
-                {
-                    cells[cell.X, cell.Y] = -1;
-                }
-            }
 
             //populate entire grid
             for (int x = 0; x < cells.GetLength(0); x++)
@@ -49,15 +40,12 @@ namespace Kakuro.Model
                 }
             }
 
-            // Collect Entry positions in traversal order (row-major)
-      
             var entryPositions = new List<(int x, int y)>();
             for (int y = 0; y < bTemplate.SizeY; y++)
                 for (int x = 0; x < bTemplate.SizeX; x++)
                     if (bTemplate.Grid[x, y] is Entry)
                         entryPositions.Add((x, y));
 
-            // Backtracking fill
             bool solved = Backtrack(entryPositions, 0);
 
             if (!solved)
@@ -65,7 +53,6 @@ namespace Kakuro.Model
                     "Could not fill the board with valid digits. " +
                     "Check that your board layout has no impossible runs.");
 
-            // Write filled values back into tempBoard's Entry cells
             for (int y = 0; y < tempBoard.SizeY; y++)
                 for (int x = 0; x < tempBoard.SizeX; x++)
                     if (tempBoard.Grid[x, y] is Entry entry && cells[x, y] > 0)
@@ -73,8 +60,6 @@ namespace Kakuro.Model
 
             // Recalculate clue sums from the filled grid
             RecalculateClues();
-
-            return cells;
         }
 
         private bool Backtrack(List<(int x, int y)> positions, int index)
