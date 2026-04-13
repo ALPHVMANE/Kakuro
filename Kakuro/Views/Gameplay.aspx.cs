@@ -12,74 +12,28 @@ namespace Kakuro
 {
     public partial class Gameplay : System.Web.UI.Page
     {
-        private string connStr;
         private Board board;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
-            SQLManager sqlm = new SQLManager(connStr);
-            PuzzleManager pm = new PuzzleManager(sqlm);
+
+            if (Session["MemberID"] == null)
+            {
+                Response.Redirect("~/Views/Login.aspx");
+                return;
+            }
+
+            board = Session["CurrentBoard"] as Board;
+
+            if (board == null)
+            {
+                Response.Redirect("~/Views/Configurations.aspx");
+                return;
+            }
 
             if (!IsPostBack)
-            {
-
-                if (Session["lvlBoardID"] == null || Session["MemberID"] == null)
-                {
-                    Response.Redirect("~/Views/Levels.aspx");
-                    return;
-                }
-
-                int boardID = (int)Session["LvlBoardID"];
-
-
-                board = pm.initBoard(boardID, (int)Session["MemberID"]);
-
-                if (board != null)
-                {
-                    Session["CurrentBoard"] = board;
-                }
-            }
-            else
-            {
-                board = (Board)Session["CurrentBoard"];
-            }
-
-
-            if (board != null)
-            {
                 DisplayBoard();
-            }
-            else
-            {
-                Response.Write("<script>alert('Unable to load board.')</script>");
-            }
-
-            bool isRNG = Session["IsRNG"] != null && (bool)Session["IsRNG"];
-
-            //if(isRNG)
-            //{
-            //    int sizeX = (int)Session["RNGSizeX"];
-            //    int sizeY = (int)Session["RNGSizeY"];
-            //    string diff = Session["RNGDifficulty"]?.ToString() ?? "Medium";
-
-            //    board = pm.initRNGBoard(0, sizeX, sizeY, diff);
-            //    Session["CurrentBoard"] = board;
-            //}
-            //else
-            //{
-            //    int boardID = (int)Session["LvlBoardID"];
-            //    board = pm.initBoard(boardID, (int)Session["MemberID"]);
-            //    if (board != null) Session["CurrentBoard"] = board;
-            //}
-
         }
-
-        //public bool ValidateSolution(Board board, int[,] userInput)
-        //{
-        //    return board.HorizontalSegments.All(segment => segment.IsValid()) &&
-        //           board.VerticalSegments.All(segment => segment.IsValid());
-        //} ==> For rng tables
 
         protected void btnCheckSolution_Click(object sender, EventArgs e) //Checks for non-dynamic puzzles only
         {
@@ -112,7 +66,8 @@ namespace Kakuro
             {
                 ResultLabel.Text = "Congratulations! You solved the puzzle!";
                 ResultLabel.ForeColor = System.Drawing.Color.Green;
-                SQLManager sqlm = new SQLManager(connStr);
+                SQLManager sqlm = new SQLManager("DataSource=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+                Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True"));
                 sqlm.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
 
                 // redirect to next level or back to level select

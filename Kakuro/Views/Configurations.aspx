@@ -1,14 +1,12 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Views/Site.Master" CodeBehind="Configurations.aspx.cs" Inherits="Kakuro.Views.Configurations" %>
 
 <asp:Content ID="CustomContent" ContentPlaceHolderID="MainContent" runat="server">
-        <link href="../Content/Selections.css" runat="server" rel="stylesheet" type="text/css" />
+        <link href="../Content/Configurations.css" runat="server" rel="stylesheet" type="text/css" />
 
-        <div class="wrap">
-          <h2 class="sr-only">Kakuro game setup — choose grid size, difficulty, and customize your board template.</h2>
 
           <div class="header">
             <h1>Kaku<span>ro</span></h1>
-            <p>Custom puzzle builder</p>
+            <p>Puzzle Builder</p>
           </div>
 
           <asp:Panel ID="pnlConfig" runat="server" CssClass="config-panel">
@@ -64,13 +62,13 @@
                 Custom Grid
               </asp:LinkButton>
 
-              <asp:LinkButton ID="lnkSkip" runat="server" CssClass="gen-btn"
-                OnClick="lnkSkip_Click" Enabled="false">
-                Skip Custom Creation
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                   <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                 </svg>
-              </asp:LinkButton>
+               <asp:LinkButton ID="lnkSkip" runat="server" CssClass="gen-btn"
+                    OnClick="lnkSkip_Click" Enabled="false">
+                    Skip Custom Creation
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </asp:LinkButton>
 
             </asp:Panel>
 
@@ -100,7 +98,7 @@
 
                       <div class="action-row">
                         
-                          <asp:LinkButton ID="btnSave" runat="server" CssClass="action-btn primary" OnClick="SaveTemplate_Click">Save template</asp:LinkButton>
+                          <asp:LinkButton ID="btnCustom" runat="server" CssClass="action-btn primary" OnClick="PlayCustom_Click">Play Custom Grid</asp:LinkButton>
                       </div>
                     </asp:Panel>
                </ContentTemplate>

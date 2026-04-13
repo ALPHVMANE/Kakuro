@@ -168,12 +168,12 @@ namespace Kakuro.Views
         protected global::System.Web.UI.WebControls.Panel pnlKakuroGrid;
 
         /// <summary>
-        /// btnSave control.
+        /// btnCustom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSave;
+        protected global::System.Web.UI.WebControls.LinkButton btnCustom;
     }
 }

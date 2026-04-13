@@ -5,7 +5,7 @@
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-    <asp:UpdatePanel ID="upPuzzle" runat="server"> <%--Update Panel => timer--%>
+    <asp:UpdatePanel ID="upPuzzle" runat="server">
         <ContentTemplate>
 
             <hr />
@@ -15,7 +15,7 @@
             
          <div class="d-flex flex-column align-items-center mt-4">
             <asp:Button ID="CheckSolutionButton" runat="server" 
-                Text="Check Solution" 
+                Text="Check Solution"   
                 CssClass="btn btn-primary px-4 py-2" 
                 OnClick="btnCheckSolution_Click" />
 

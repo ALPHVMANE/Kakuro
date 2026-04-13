@@ -20,7 +20,7 @@ namespace Kakuro.Model
         }
 
         //====== Gameplay methods ======//
-        public bool SessionExists(int bID, int uID) // uID == Session["MemberID"]
+        public bool SessionExists(int bID, int uID)
         {
             using (SqlConnection conn = new SqlConnection(cStr))
             {
@@ -194,6 +194,35 @@ namespace Kakuro.Model
             }
         }
 
+        public Board FetchRandomTemplate(int size, string difficulty)
+        {
+            int boardId = -1;
+
+            using (SqlConnection conn = new SqlConnection(cStr))
+            {
+                conn.Open();
+
+                // 1. Find a random Board ID that matches the criteria
+                string query = "SELECT TOP 1 Id FROM Board " +
+                               "WHERE SizeX = @sx AND Difficulty = @diff " +
+                               "ORDER BY NEWID()";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@sx", size);
+                    cmd.Parameters.AddWithValue("@diff", difficulty);
+
+                    object result = cmd.ExecuteScalar();
+                    if (result == null) return null; 
+
+                    boardId = (int)result;
+                }
+            }
+
+            // 2. Reuse your existing FetchBoardData logic to populate the full object
+            return FetchBoardData(boardId);
+        }
+
 
         //====== Levels methods ======//
         public int GetCompletedLevelsCount(int uID)
@@ -223,7 +252,6 @@ namespace Kakuro.Model
             using (SqlConnection conn = new SqlConnection(cStr))
             {
                 conn.Open();
-                //mark as completed in db
                 using (SqlCommand cmd = new SqlCommand("UPDATE GameState SET Status = 1 WHERE UserID = @uID AND BoardID = @bID", conn))
                 {
                     cmd.Parameters.AddWithValue("@uID", uID);
@@ -241,6 +269,8 @@ namespace Kakuro.Model
                 }
             }
         }
+
+
 
     }
 }

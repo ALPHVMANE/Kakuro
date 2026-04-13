@@ -5,20 +5,16 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using Microsoft.AspNet.FriendlyUrls;
 
 namespace Kakuro.Views
 {
     public partial class Configurations : System.Web.UI.Page
     {
-        // ── Session key constants ────────────────────────────────────────────
         private const string SK_SIZE = "SelectedSize";
         private const string SK_DIFF = "SelectedDiff";
         private const string SK_GRID = "GridState";
         private const string SK_PAINT = "PaintMode";
-
-        // ── Grid state helpers (no JavaScriptSerializer) ─────────────────────
-        // Stored in Session as List<List<string>> — no serialization needed.
-        // Each cell value is one of: "clue" | "black" | "white"
 
         private List<List<string>> GetGridState()
             => Session[SK_GRID] as List<List<string>>;
@@ -26,19 +22,14 @@ namespace Kakuro.Views
         private void SetGridState(List<List<string>> state)
             => Session[SK_GRID] = state;
 
-        // Paint mode stored in Session so it survives every postback reliably.
         private string PaintMode
         {
             get => Session[SK_PAINT] as string ?? "black";
             set => Session[SK_PAINT] = value;
         }
 
-        // ── Page lifecycle ───────────────────────────────────────────────────
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Always rebuild size buttons so their inner HTML is present on
-            // both first load and every postback (dynamic controls are not
-            // kept in ViewState — Controls.Clear() prevents duplicate IDs).
             BuildGridOptions();
 
             if (IsPostBack && GetGridState() != null)
@@ -52,7 +43,6 @@ namespace Kakuro.Views
             SyncPaintToolbar();
         }
 
-        // ── Size button builder ──────────────────────────────────────────────
         private void BuildGridOptions()
         {
             gridOptions.Controls.Clear();
@@ -83,7 +73,6 @@ namespace Kakuro.Views
             }
         }
 
-        // ── Selection handlers ───────────────────────────────────────────────
         protected void SelectSize_Click(object sender, EventArgs e)
         {
             Session[SK_SIZE] = ((LinkButton)sender).CommandArgument;
@@ -98,7 +87,6 @@ namespace Kakuro.Views
             ApplyActiveClass();
         }
 
-        // ── Summary bar ──────────────────────────────────────────────────────
         private void UpdateSummary()
         {
             string sz = Session[SK_SIZE] as string;
@@ -130,7 +118,6 @@ namespace Kakuro.Views
             lnkHard.CssClass = diff == "hard" ? "diff-btn active" : "diff-btn";
         }
 
-        // ── Grid generation ──────────────────────────────────────────────────
         protected void GenerateGrid_Click(object sender, EventArgs e)
         {
             int n = int.Parse(Session[SK_SIZE].ToString().Split('x')[0]);
@@ -153,7 +140,6 @@ namespace Kakuro.Views
             RenderKakuroGrid();
         }
 
-        // ── Grid renderer ────────────────────────────────────────────────────
         private void RenderKakuroGrid()
         {
             var gridData = GetGridState();
@@ -197,7 +183,6 @@ namespace Kakuro.Views
             }
         }
 
-        // ── Cell click ───────────────────────────────────────────────────────
         protected void Cell_Click(object sender, EventArgs e)
         {
             var btn = (LinkButton)sender;
@@ -215,7 +200,6 @@ namespace Kakuro.Views
             RenderKakuroGrid();
         }
 
-        // ── Paint mode ───────────────────────────────────────────────────────
         protected void SetPaintMode_Click(object sender, EventArgs e)
         {
             PaintMode = ((Button)sender).CommandArgument;
@@ -228,23 +212,33 @@ namespace Kakuro.Views
             btnToolWhite.CssClass = PaintMode == "white" ? "tool-btn active" : "tool-btn";
         }
 
-        // ── Pick from DB templates ───────────────────────────────────────────
         protected void lnkSkip_Click(object sender, EventArgs e)
         {
-            // TODO: implement — available template fields: Id, Score, SizeX, SizeY, Difficulty
-            // Example:
-            //   var t = db.Templates.Find(selectedId);
-            //   Session[SK_SIZE] = t.SizeX + "x" + t.SizeY;
-            //   Session[SK_DIFF] = t.Difficulty;
-            //   SetGridState( /* build from t.GridData */ );
-            //   previewWrap.Visible = true;
-            //   RenderKakuroGrid();
+            string sz = Session["SelectedSize"] as string;
+            string diff = Session["SelectedDiff"] as string;
+
+            if (string.IsNullOrEmpty(sz) || string.IsNullOrEmpty(diff)) return;
+
+            Session["BoardType"] = "RNG";
+
+            Session["RNG_Size"] = (string)sz.Split('x')[0];
+            Session["RNG_Diff"] = diff;
+
+
+            Response.Redirect("~/Views/BoardGenerator.aspx");
+
         }
 
-        // ── Save ─────────────────────────────────────────────────────────────
-        protected void SaveTemplate_Click(object sender, EventArgs e)
+        protected void PlayCustom_Click(object sender, EventArgs e)
         {
-            
+            var gridState = Session["GridState"] as List<List<string>>;
+
+            if (gridState == null) return;
+
+            Session["BoardType"] = "Custom";
+            Session["CustomGrid"] = gridState;
+
+            Response.Redirect("~/Views/BoardGenerator.aspx");
         }
     }
 }
