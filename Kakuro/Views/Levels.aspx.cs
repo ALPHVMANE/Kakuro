@@ -47,7 +47,7 @@ namespace Kakuro.Views
             if (btn != null)
             {
                 Session["LvlBoardID"] = (int)(Convert.ToInt32(btn.Text) + 24);
-                Response.Redirect("~/Views/Gameplay.aspx");
+                Response.Redirect("~/Views/BoardGenerator.aspx");
             }
         }
 

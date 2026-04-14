@@ -35,7 +35,19 @@ namespace Kakuro.Model
             return currentBoard;
         }
 
-        public Board initFromTemplate(int size, string difficulty)
+        public Board initRNGBoard(int size, string difficulty)
+        {
+            Board template = sql.FetchRandomTemplate(size, difficulty);
+
+            if (template == null)
+                throw new Exception("No template found.");
+
+            RNGController rng = new RNGController(template);
+
+            return rng.tempBoard;
+        }
+
+        public Board initFromCustom(int size, string difficulty)
         {
             Board template = sql.FetchRandomTemplate(size, difficulty);
 

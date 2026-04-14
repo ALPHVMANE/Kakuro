@@ -22,8 +22,11 @@ namespace Kakuro
                 Response.Redirect("~/Views/Login.aspx");
                 return;
             }
+            
+            board = Session["BoardGen"] as Board;
 
-            board = Session["CurrentBoard"] as Board;
+
+
 
             if (board == null)
             {

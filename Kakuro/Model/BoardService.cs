@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Web.SessionState;
+using Org.BouncyCastle.Security;
+
 
 public class BoardService
 {
@@ -26,7 +28,7 @@ public class BoardService
                 return GenerateCustomBoard(session);
 
             default:
-                throw new Exception("Invalid board type");
+                return GenerateLevelBoard(session);
         }
     }
 
@@ -45,7 +47,7 @@ public class BoardService
 
         int size = int.Parse(sizeStr.Split('x')[0]);
 
-        return _pm.initFromTemplate(size, diff);
+        return _pm.initRNGBoard(size, diff);
     }
 
     private Board GenerateCustomBoard(HttpSessionState session)
@@ -55,13 +57,9 @@ public class BoardService
         if (grid == null)
             throw new Exception("Custom grid missing");
 
-        CustomBoardBuilder builder = new CustomBoardBuilder();
-        return builder.Build(grid);
+        return Build(grid); 
     }
-}
 
-public class CustomBoardBuilder
-{
     public Board Build(List<List<string>> gridState)
     {
         int sizeY = gridState.Count;
@@ -92,6 +90,13 @@ public class CustomBoardBuilder
             }
         }
 
-        return new Board(67, sizeX, sizeY, "Custom", grid); // ID: C
+        SecureRandom id = new SecureRandom();
+        Board templateBoard = new Board(id.Next(1000, 9999), sizeX, sizeY, "Custom", grid);
+
+
+        RNGController rng = new RNGController(templateBoard);   
+
+
+        return rng.tempBoard;
     }
 }

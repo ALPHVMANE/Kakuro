@@ -39,7 +39,7 @@ namespace Kakuro.Views
             }
 
             UpdateSummary();
-            ApplyActiveClass();
+            ApplyCSS();
             SyncPaintToolbar();
         }
 
@@ -77,14 +77,14 @@ namespace Kakuro.Views
         {
             Session[SK_SIZE] = ((LinkButton)sender).CommandArgument;
             UpdateSummary();
-            ApplyActiveClass();
+            ApplyCSS();
         }
 
         protected void SelectDiff_Click(object sender, EventArgs e)
         {
             Session[SK_DIFF] = ((LinkButton)sender).CommandArgument;
             UpdateSummary();
-            ApplyActiveClass();
+            ApplyCSS();
         }
 
         private void UpdateSummary()
@@ -101,7 +101,7 @@ namespace Kakuro.Views
             lnkSkip.Enabled = !string.IsNullOrEmpty(sz) && !string.IsNullOrEmpty(diff);
         }
 
-        private void ApplyActiveClass()
+        private void ApplyCSS()
         {
             string sz = Session[SK_SIZE] as string;
             string diff = Session[SK_DIFF] as string;
@@ -121,17 +121,18 @@ namespace Kakuro.Views
         protected void GenerateGrid_Click(object sender, EventArgs e)
         {
             int n = int.Parse(Session[SK_SIZE].ToString().Split('x')[0]);
-            string diff = Session[SK_DIFF].ToString();
-            double blackRatio = diff == "easy" ? 0.22 : diff == "medium" ? 0.30 : 0.38;
-            var rand = new Random();
 
             var state = new List<List<string>>();
+
             for (int r = 0; r < n; r++)
             {
                 var row = new List<string>();
+
                 for (int c = 0; c < n; c++)
-                    row.Add((r == 0 || c == 0) ? "clue"
-                          : rand.NextDouble() < blackRatio ? "black" : "white");
+                {
+                    row.Add((r == 0 || c == 0) ? "clue" : "white");
+                }
+
                 state.Add(row);
             }
 
@@ -193,7 +194,6 @@ namespace Kakuro.Views
             var gridData = GetGridState();
             if (gridData == null) return;
 
-            // PaintMode comes from Session — always reliable across postbacks
             gridData[r][c] = PaintMode;
 
             SetGridState(gridData);

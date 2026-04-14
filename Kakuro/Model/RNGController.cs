@@ -20,7 +20,7 @@ namespace Kakuro.Model
 
         public RNGController(Board board)
         {
-            tempBoard = new Board(board.Id, board.SizeX, board.SizeY, board.Difficulty);
+            tempBoard = new Board(board.Id, board.SizeX, board.SizeY, board.Difficulty, board.Grid);
             bTemplate = board;
             rng = new SecureRandom();
             cells = new int[board.SizeX, board.SizeY];

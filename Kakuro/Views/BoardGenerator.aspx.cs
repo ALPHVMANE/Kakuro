@@ -1,34 +1,37 @@
 ﻿using Kakuro.Model;
 using System;
 
-public partial class BoardGenerator : System.Web.UI.Page
+namespace Kakuro.Views // <--- Add this wrapper
 {
-    protected void Page_Load(object sender, EventArgs e)
+    public partial class BoardGenerator : System.Web.UI.Page
     {
-        if (!IsPostBack)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            string connStr = "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename =" +
-                Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
-
-            SQLManager sqlm = new SQLManager(connStr);
-            PuzzleManager pm = new PuzzleManager(sqlm);
-            BoardService service = new BoardService(pm);
-
-            try
+            if (!IsPostBack)
             {
-                Board board = service.GenerateBoard(Session);
+                // ... your existing code ...
+                string connStr = "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename =" +
+                    Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
 
-                Session["CurrentBoard"] = board;
+                SQLManager sqlm = new SQLManager(connStr);
+                PuzzleManager pm = new PuzzleManager(sqlm);
+                BoardService service = new BoardService(pm);
 
-                // optional flags
-                Session["IsRNG"] = Session["BoardType"]?.ToString() == "RNG";
+                try
+                {
+                    Board board = service.GenerateBoard(Session);
+                    Session["BoardGen"] = board;
 
-                Response.Redirect("~/Views/Gameplay.aspx");
-            }
-            catch (Exception ex)
-            {
-                Response.Write($"<script>alert('{ex.Message}');</script>");
+                    Response.Redirect("~/Views/Gameplay.aspx");
+                }
+                catch (Exception ex)
+                {
+                    Response.Write($"<script>alert('{ex.Message}');</script>");
+                }
             }
         }
+
+        // Note: Make sure to add the Click handlers for 
+        // lnkGenerate, btnToolBlack, etc., here as well!
     }
 }

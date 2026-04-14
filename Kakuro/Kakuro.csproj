@@ -123,10 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Content\Config.css" />
     <Content Include="Content\Gameplay.css" />
-    <Content Include="Content\Configurations.css" />
     <Content Include="Content\Levels.css" />
-    <Content Include="Content\Selections.css" />
     <Content Include="Views\BoardGenerator.aspx" />
     <Content Include="Views\Configurations.aspx" />
     <Content Include="Views\Gameplay.aspx" />
