@@ -26,8 +26,9 @@
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Leaderboard">Leaderboard</a></li>
+                        <li class="nav-item"><a id="navHistory" class="nav-link" runat="server" href="~/Views/History">History</a></li>
                         <li class="nav-item"><a id="navLevels" class="nav-link" runat="server" href="~/Views/Levels">Levels</a></li>
-                        <li class="nav-item"><a id="navRNG" class="nav-link" runat="server" href="~/Views/SelectConfiguration">Play</a></li>
+                        <li class="nav-item"><a id="navRNG" class="nav-link" runat="server" href="~/Views/Configurations">Play</a></li>
                     </ul>
                     <ul class="navbar-nav flex-grow-2">
                         <li id="navProfile" class="nav-item" runat="server" visible="false"><a class="nav-link" runat="server" href="~/Views/Profile">Profile</a></li>
@@ -54,3 +55,4 @@
     </asp:PlaceHolder>
 </body>
 </html>
+

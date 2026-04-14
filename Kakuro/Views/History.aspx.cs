@@ -64,13 +64,21 @@ namespace Kakuro.Views
                + Server.MapPath(@"~\App_Data\Kakuro.mdf") +
                @";Integrated Security=True");
             mycon.Open();
-            SqlCommand mycmd = new SqlCommand(
-            "UPDATE GameState SET Status = 0, Score = 0, Errors = 0 " +
-            "WHERE BoardID = @bID AND UserID = @uID", mycon);
-            mycmd.Parameters.AddWithValue("@bID", boardId);
-            mycmd.Parameters.AddWithValue("@uID", (int)Session["MemberID"]);
-            mycmd.ExecuteNonQuery();
-            mycon.Close();
+            SqlCommand getSession = new SqlCommand(
+                 "SELECT SessionID FROM GameState WHERE BoardID = @bID AND UserID = @uID", mycon);
+            getSession.Parameters.AddWithValue("@bID", boardId);
+            getSession.Parameters.AddWithValue("@uID", (int)Session["MemberID"]);
+            object sessionObj = getSession.ExecuteScalar();
+
+            if (sessionObj != null)
+            {
+                int sessionID = Convert.ToInt32(sessionObj);
+
+                SqlCommand deleteCell = new SqlCommand(
+                    "DELETE FROM CellState WHERE SessionId = @sID", mycon);
+                deleteCell.Parameters.AddWithValue("@sID", sessionID);
+                deleteCell.ExecuteNonQuery();
+            }
 
             Session["IsRNG"] = false;
             Session["LvlBoardID"] = boardId;

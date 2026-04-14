@@ -14,6 +14,7 @@ namespace Kakuro
         {
             bool isLoggedIn = Session["MemberID"] != null;
 
+            navHistory.Visible = isLoggedIn;
             navProfile.Visible = isLoggedIn;
             navLogout.Visible = isLoggedIn;
             navLogin.Visible = !isLoggedIn;
@@ -21,8 +22,8 @@ namespace Kakuro
 
             if (isLoggedIn)
             {
-                string connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
-                    Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
+                string connStr = "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename =" +
+                     Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
                 SQLManager sqlm = new SQLManager(connStr);
                 int completed = sqlm.GetCompletedLevelsCount((int)Session["MemberID"]);
 
@@ -32,8 +33,8 @@ namespace Kakuro
             }
             else
             {
-                navLevels.Visible= false;
-                navRNG.Visible= false;
+                navLevels.Visible = false;
+                navRNG.Visible = false;
             }
         }
 

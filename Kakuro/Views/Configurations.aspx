@@ -5,11 +5,6 @@
 
     <div id="wrap">
 
-          <div class="header">
-            <h1>Kaku<span>ro</span></h1>
-            <p>Puzzle Builder</p>
-          </div>
-
           <asp:Panel ID="pnlConfig" runat="server" CssClass="config-panel">
 
             <div>

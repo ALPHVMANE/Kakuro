@@ -17,7 +17,6 @@
                                     <th>Board</th>
                                     <th>Status</th>
                                     <th>Score</th>
-                                    <th>Errors</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
