@@ -14,7 +14,6 @@ namespace Kakuro.Model
         public string Difficulty { get; set; }
         public Cell[,] Grid { get; set; }
 
-        // Single flexible constructor using optional parameters
         public Board(int id, int sizeX, int sizeY, string difficulty, Cell[,] grid)
         {
             Id = id;

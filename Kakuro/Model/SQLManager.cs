@@ -12,6 +12,8 @@ namespace Kakuro.Model
     public class SQLManager
     {
         private Board board = null;
+
+        private int SessionID;
         private string cStr;
 
         public SQLManager(string connStr)
@@ -53,6 +55,49 @@ namespace Kakuro.Model
                 }
             }
         }
+
+
+        public void InsertCustomBoard(int size)
+        {
+            using (SqlConnection conn = new SqlConnection(cStr))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO Board (Score, SizeX, SizeY, Difficulty) VALUES (700, @uID, @bID, 'Custom')", conn))
+                {
+                    cmd.Parameters.AddWithValue("@bID", size);
+                    cmd.Parameters.AddWithValue("@uID", size);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public int FetchSessionID(int bID, int uID)
+        {
+            using (SqlConnection conn = new SqlConnection(cStr))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand("SELECT gs.SessionID " +
+                    "FROM GameState gs " +
+                    "LEFT JOIN Board b ON b.Id = gs.BoardID AND gs.UserID = @uID" +
+                    " WHERE b.Id = @bID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@bID", bID);
+                    cmd.Parameters.AddWithValue("@uID", uID);
+
+                    using (SqlDataReader rSess = cmd.ExecuteReader())
+                    {
+                        if (rSess.Read())
+                        {
+                            SessionID = (int)rSess["SessionID"];
+                        }
+                    }
+                }
+
+                return SessionID;
+            }
+        }
+
         public Board FetchBoardData(int bID, int uID)
         {
             using (SqlConnection conn = new SqlConnection(cStr))
@@ -72,6 +117,7 @@ namespace Kakuro.Model
                         if (rSess.Read())
                         {
                             int gID = (int)rSess["SessionID"];
+                            
                             int sx = (int)rSess["SizeX"];
                             int sy = (int)rSess["SizeY"];
                             string diff = rSess["Difficulty"].ToString();
@@ -98,11 +144,11 @@ namespace Kakuro.Model
             using (SqlCommand cmd2 =
                 new SqlCommand("SELECT cs.UserValue, cs.Id, c.* " +
                 "FROM Cells c " +
-                "LEFT JOIN CellState cs ON c.Id = cs.CellId AND cs.SessionId = @gID " +
+                "LEFT JOIN CellState cs ON (c.X = cs.X AND c.Y = cs.Y) AND cs.SessionId = @gID " +
                 "WHERE c.BoardID = @bID", conn))
             {
-                cmd2.Parameters.AddWithValue("@giD", gID);
-                cmd2.Parameters.AddWithValue("@biD", board.Id);
+                cmd2.Parameters.AddWithValue("@gID", gID);
+                cmd2.Parameters.AddWithValue("@bID", board.Id);
                 using (SqlDataReader rSess2 = cmd2.ExecuteReader())
                 {
                     while (rSess2.Read())
@@ -135,6 +181,8 @@ namespace Kakuro.Model
 
             }
         }
+
+
         public Board FetchBoardData(int bID)
         {
             using (SqlConnection conn = new SqlConnection(cStr))
@@ -267,6 +315,32 @@ namespace Kakuro.Model
                     cmd2.Parameters.AddWithValue("@boardID", boardID);
                     cmd2.ExecuteNonQuery();
                 }
+            }
+        }
+
+        public void SaveCell(int sessionId, int x, int y, int userValue)
+        {
+            using (SqlConnection conn = new SqlConnection(cStr))
+            {
+                // Simple example: Update if exists, otherwise insert
+                string query = @"
+            IF EXISTS (SELECT 1 FROM CellState WHERE SessionId = @sid AND X = @x AND Y = @y)
+            BEGIN
+                UPDATE CellState SET UserValue = @val WHERE SessionId = @sid AND X = @x AND Y = @y
+            END
+            ELSE
+            BEGIN
+                INSERT INTO CellState (SessionId, X, Y, UserValue) VALUES (@sid, @x, @y, @val)
+            END";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@sid", sessionId);
+                cmd.Parameters.AddWithValue("@x", x);
+                cmd.Parameters.AddWithValue("@y", y);
+                cmd.Parameters.AddWithValue("@val", userValue);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using Kakuro.Model;
 using System;
 
-namespace Kakuro.Views // <--- Add this wrapper
+namespace Kakuro.Views
 {
     public partial class BoardGenerator : System.Web.UI.Page
     {
@@ -9,7 +9,6 @@ namespace Kakuro.Views // <--- Add this wrapper
         {
             if (!IsPostBack)
             {
-                // ... your existing code ...
                 string connStr = "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename =" +
                     Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
 
@@ -30,8 +29,5 @@ namespace Kakuro.Views // <--- Add this wrapper
                 }
             }
         }
-
-        // Note: Make sure to add the Click handlers for 
-        // lnkGenerate, btnToolBlack, etc., here as well!
     }
 }

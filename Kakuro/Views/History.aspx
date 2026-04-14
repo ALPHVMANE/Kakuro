@@ -7,19 +7,18 @@
         <asp:Panel ID="pnlHistory" runat="server" CssClass="card shadow-sm p-4">
             <h2 class="mb-4 text-center">Game History</h2>
             
-            <asp:ListView ID="ListView" runat="server" DataSourceID="KakuroGameDB" DataKeyNames="SessionID">
+            <asp:ListView ID="ListView" runat="server" DataKeyNames="SessionID">
                 <LayoutTemplate>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped align-middle">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>Complete?</th>
-                                    <th>Session ID</th>
-                                    <th>Board ID</th>
+                                    <th>Session</th>
+                                    <th>Board</th>
+                                    <th>Status</th>
                                     <th>Score</th>
                                     <th>Errors</th>
-                                    <th>
-                                    </th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,6 +53,21 @@
                         </td>
                         <td class="fw-bold text-success"><%# Eval("Score") %></td>
                         <td class="text-danger"><%# Eval("Errors") %></td>
+                        <td>
+                            <asp:LinkButton ID="btnResume" runat="server" 
+                                OnClick="btnResume_Click" 
+                                CommandArgument='<%# Eval("BoardID") %>' 
+                                CssClass="btn btn-sm btn-outline-primary me-1"
+                                Visible='<%# !(bool)Eval("Status") %>'>
+                                <i class="bi bi-play-fill"></i> Resume
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="btnReplay" runat="server" 
+                                OnClick="btnReplay_Click" 
+                                CommandArgument='<%# Eval("BoardID") %>' 
+                                CssClass="btn btn-sm btn-outline-success">
+                                <i class="bi bi-arrow-repeat"></i> Replay
+                            </asp:LinkButton>
+                        </td>
                     </tr>
                 </ItemTemplate> 
 
@@ -65,12 +79,4 @@
             </asp:ListView>
         </asp:Panel>
     </div>
-
-    <asp:SqlDataSource ID="KakuroGameDB" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-        SelectCommand="SELECT [SessionID], [BoardID], [Status], [Score], [Errors] FROM [GameState] WHERE ([UserID] = @UserID)">
-        <SelectParameters>
-            <asp:SessionParameter DefaultValue="1" Name="UserID" SessionField="MemberID" Type="Int32" />
-        </SelectParameters>
-    </asp:SqlDataSource>
 </asp:Content>

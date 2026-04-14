@@ -47,6 +47,7 @@ namespace Kakuro.Views
             if (btn != null)
             {
                 Session["LvlBoardID"] = (int)(Convert.ToInt32(btn.Text) + 24);
+                Session["BoardType"] = "Levels";
                 Response.Redirect("~/Views/BoardGenerator.aspx");
             }
         }

@@ -59,5 +59,7 @@ namespace Kakuro.Model
             return rng.tempBoard;
         }
 
+       
+
     }
 }

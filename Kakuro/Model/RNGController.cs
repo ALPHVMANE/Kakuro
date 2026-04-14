@@ -58,18 +58,17 @@ namespace Kakuro.Model
                     if (tempBoard.Grid[x, y] is Entry entry && cells[x, y] > 0)
                         entry.CorrectValue = cells[x, y];
 
-            // Recalculate clue sums from the filled grid
             RecalculateClues();
         }
 
         private bool Backtrack(List<(int x, int y)> positions, int index)
         {
             if (index == positions.Count)
-                return true; // all cells filled successfully
+                return true;
 
             var (x, y) = positions[index];
 
-            // Shuffle digits
+
             var candidates = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             Shuffle(candidates);
 
@@ -82,16 +81,16 @@ namespace Kakuro.Model
                     if (Backtrack(positions, index + 1))
                         return true;
 
-                    cells[x, y] = -1; // undo and try next
+                    cells[x, y] = -1; 
                 }
             }
 
-            return false; // trigger backtrack to previous cell
+            return false; 
         }
 
         private bool ValidatePlacement(int x, int y, int value)
         {
-            // Check horizontal run (same row, scan left and right from (x,y))
+           
             for (int cx = x - 1; cx >= 0; cx--)
             {
                 if (!(bTemplate.Grid[cx, y] is Entry)) break;
@@ -103,7 +102,7 @@ namespace Kakuro.Model
                 if (cells[cx, y] == value) return false;
             }
 
-            // Check vertical run (same column, scan up and down from (x,y))
+           
             for (int cy = y - 1; cy >= 0; cy--)
             {
                 if (!(bTemplate.Grid[x, cy] is Entry)) break;
@@ -127,7 +126,7 @@ namespace Kakuro.Model
                     if (!(tempBoard.Grid[x, y] is Clue clueCell))
                         continue;
 
-                    // Horizontal sum: add up the Entry run to the right
+
                     int hSum = 0;
                     for (int cx = x + 1; cx < tempBoard.SizeX; cx++)
                     {
@@ -136,7 +135,6 @@ namespace Kakuro.Model
                     }
                     clueCell.HorizontalClue = hSum > 0 ? hSum : (int?)null;
 
-                    // Vertical sum: add up the Entry run downward
                     int vSum = 0;
                     for (int cy = y + 1; cy < tempBoard.SizeY; cy++)
                     {

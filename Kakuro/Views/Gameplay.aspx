@@ -1,30 +1,28 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Views/Site.Master" CodeBehind="Gameplay.aspx.cs" Inherits="Kakuro.Gameplay" %>
 
 <asp:Content ID="GameplayContent" ContentPlaceHolderID="MainContent" runat="server">
-      <link href="../Content/Gameplay.css" runat="server" rel="stylesheet" type="text/css" />
+    <link href="../Content/Gameplay.css" runat="server" rel="stylesheet" type="text/css" />
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
     <asp:UpdatePanel ID="upPuzzle" runat="server">
         <ContentTemplate>
-
             <hr />
+            <div class="table-responsive">
                 <asp:Table ID="KakuroTable" runat="server" CssClass="table table-bordered text-center kakuro-grid">
                 </asp:Table>
             </div>
             
-         <div class="d-flex flex-column align-items-center mt-4">
-            <asp:Button ID="CheckSolutionButton" runat="server" 
-                Text="Check Solution"   
-                CssClass="btn btn-primary px-4 py-2" 
-                OnClick="btnCheckSolution_Click" />
+            <div class="d-flex flex-column align-items-center mt-4">
+                <asp:Button ID="CheckSolutionButton" runat="server" 
+                    Text="Check Solution"   
+                    CssClass="btn btn-primary px-4 py-2" 
+                    OnClick="btnCheckSolution_Click" />
 
-            <asp:Label ID="ResultLabel" runat="server" 
-                CssClass="mt-2 font-weight-bold" 
-                Text="" />
-        </div>
-
+                <asp:Label ID="ResultLabel" runat="server" 
+                    CssClass="mt-2 font-weight-bold" 
+                    Text="" />
+            </div>
         </ContentTemplate>
-
     </asp:UpdatePanel> 
 </asp:Content>
