@@ -51,7 +51,7 @@
                             <span class="ms-2 small text-muted"><%# (bool)Eval("Status") ? "Completed" : "In Progress" %></span>
                         </td>
                         <td class="fw-bold text-success"><%# Eval("Score") %></td>
-                        <td class="text-danger"><%# Eval("Errors") %></td>
+                   
                         <td>
                             <asp:LinkButton ID="btnResume" runat="server" 
                                 OnClick="btnResume_Click" 

@@ -3,7 +3,7 @@
 <asp:Content ID="CustomContent" ContentPlaceHolderID="MainContent" runat="server">
         <link href="<%= ResolveUrl("~/Content/Config.css") %>" rel="stylesheet" type="text/css" />
 
-    <div id="wrap">
+    <div id="wrap" class="wrap">
 
           <asp:Panel ID="pnlConfig" runat="server" CssClass="config-panel">
 

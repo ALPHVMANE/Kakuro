@@ -29,7 +29,7 @@ namespace Kakuro.Views
                 mycon.Open();
 
                 // sql with 1 param
-                string sql = "SELECT [SessionID], [BoardID], [Status], [Score], [Errors] FROM [GameState] ";
+                string sql = "SELECT [SessionID], [BoardID], [Status], [Score] FROM [GameState] ";
                 sql += "WHERE [UserID] = @UserID";
                 SqlCommand mycmd = new SqlCommand(sql, mycon);
 

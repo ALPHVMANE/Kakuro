@@ -3,26 +3,25 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    
 }
 
 :root {
-    --ink: #1a1714;
-    --ink-muted: #6b6560;
-    --ink-faint: #c5bfb8;
-    --paper: #faf8f4;
-    --paper-warm: #f2ede4;
-    --paper-grid: #e8e1d6;
-    --accent: #c0392b;
-    --accent-light: #fcecea;
-    --accent-dark: #922b21;
-    --selected-fill: #1a1714;
-    --selected-text: #faf8f4;
-    --black-cell: #1a1714;
-    --white-cell: #fdf9f3;
-    --cell-border: #ccc6bc;
-    --tag-bg: #ede8df;
-    --tag-text: #3d3832;
+    --ink: #1a1d2e;
+    --ink-muted: #6b7280;
+    --ink-faint: #bfdbfe;
+    --paper: #f5f8ff;
+    --paper-warm: #ffffff;
+    --paper-grid: #dbeafe;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --accent-dark: #1d4ed8;
+    --selected-fill: #1a1d2e;
+    --selected-text: #f5f8ff;
+    --black-cell: #1a1d2e;
+    --white-cell: #f8faff;
+    --cell-border: #dbeafe;
+    --tag-bg: #eff6ff;
+    --tag-text: #1e40af;
     --font-display: 'Playfair Display', Georgia, serif;
     --font-ui: 'DM Sans', system-ui, sans-serif;
     --font-mono: 'DM Mono', monospace;
@@ -47,9 +46,8 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 0;
-    display: flex;
-    justify-content: center; /* ADD THIS */
 }
 
 .header {
@@ -402,7 +400,7 @@ a {
 }
 
     .k-cell:hover {
-        background: #f0e8dd;
+        background: #dbeafe;
     }
 
     .k-cell.black-cell {
@@ -411,7 +409,7 @@ a {
     }
 
         .k-cell.black-cell:hover {
-            background: #333;
+            background: #2d3452;
         }
 
     .k-cell.clue-cell {
@@ -428,7 +426,7 @@ a {
             top: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, transparent 49%, #555 49%, #555 51%, transparent 51%);
+            background: linear-gradient(135deg, transparent 49%, #3a4060 49%, #3a4060 51%, transparent 51%);
             pointer-events: none;
         }
 
@@ -438,7 +436,7 @@ a {
     left: 5px;
     font-size: 9px;
     font-family: var(--font-mono);
-    color: #ddd;
+    color: #bfdbfe;
     line-height: 1;
 }
 
@@ -448,7 +446,7 @@ a {
     right: 5px;
     font-size: 9px;
     font-family: var(--font-mono);
-    color: #ddd;
+    color: #bfdbfe;
     line-height: 1;
 }
 
