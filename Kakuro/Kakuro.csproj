@@ -123,17 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Content\Config.css" />
     <Content Include="Content\Gameplay.css" />
-    <Content Include="Content\Configurations.css" />
     <Content Include="Content\Levels.css" />
-    <Content Include="Content\Selections.css" />
     <Content Include="Views\BoardGenerator.aspx" />
     <Content Include="Views\Configurations.aspx" />
     <Content Include="Views\Gameplay.aspx" />
-    <Content Include="App_Data\Kakuro.mdf" />
-    <Content Include="App_Data\Kakuro_log.ldf">
-      <DependentUpon>Kakuro.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\Levels.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -333,7 +328,9 @@
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />

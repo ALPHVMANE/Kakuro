@@ -1,8 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Views/Site.Master" CodeBehind="Configurations.aspx.cs" Inherits="Kakuro.Views.Configurations" %>
 
 <asp:Content ID="CustomContent" ContentPlaceHolderID="MainContent" runat="server">
-        <link href="../Content/Configurations.css" runat="server" rel="stylesheet" type="text/css" />
+        <link href="<%= ResolveUrl("~/Content/Config.css") %>" rel="stylesheet" type="text/css" />
 
+    <div id="wrap">
 
           <div class="header">
             <h1>Kaku<span>ro</span></h1>

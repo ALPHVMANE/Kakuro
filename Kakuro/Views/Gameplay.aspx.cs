@@ -1,10 +1,8 @@
 ﻿using Kakuro.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
+using System.Runtime.CompilerServices;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -12,10 +10,14 @@ namespace Kakuro
 {
     public partial class Gameplay : System.Web.UI.Page
     {
+        private SQLManager sqlm;
         private Board board;
+        private string connStr;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            connStr = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+                      Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True");
 
             if (Session["MemberID"] == null)
             {
@@ -23,16 +25,52 @@ namespace Kakuro
                 return;
             }
 
-            board = Session["CurrentBoard"] as Board;
-
-            if (board == null)
-            {
-                Response.Redirect("~/Views/Configurations.aspx");
-                return;
-            }
+            sqlm = new SQLManager(connStr);
+            PuzzleManager pm = new PuzzleManager(sqlm);
 
             if (!IsPostBack)
+            {
+                string boardType = Session["BoardType"]?.ToString();
+
+                if (boardType == "RNG")
+                {
+                    board = Session["BoardGen"] as Board;
+                    //sqlm.InsertGameState(board.Id+10000, (int)Session["MemberID"]);
+
+                }
+                else if (boardType == "Custom")
+                {
+                    board = Session["BoardGen"] as Board;
+                    //sqlm.InsertGameState(board.Id, (int)Session["MemberID"]);
+                }
+                else
+                {
+                    if (Session["LvlBoardID"] != null)
+                    {
+                        int boardID = (int)Session["LvlBoardID"];
+                        board = pm.initBoard(boardID, (int)Session["MemberID"]);
+                    }
+                }
+
+                if (board != null)
+                {
+                    Session["CurrentBoard"] = board;
+                }
+                else
+                {
+                    Response.Redirect("~/Views/Levels.aspx");
+                    return;
+                }
+            }
+            else
+            {
+                board = (Board)Session["CurrentBoard"];
+            }
+
+            if (board != null)
+            {
                 DisplayBoard();
+            }
         }
 
         protected void btnCheckSolution_Click(object sender, EventArgs e) //Checks for non-dynamic puzzles only
@@ -47,7 +85,7 @@ namespace Kakuro
                     if (board.Grid[j, i].GetType().Name == "Entry")
                     {
                         string cellId = $"cell_{j}_{i}";
-                        
+
                         TextBox textBox = (TextBox)KakuroTable.FindControl(cellId);
                         var cell = (Entry)board.Grid[j, i];
 
@@ -66,13 +104,43 @@ namespace Kakuro
             {
                 ResultLabel.Text = "Congratulations! You solved the puzzle!";
                 ResultLabel.ForeColor = System.Drawing.Color.Green;
-                SQLManager sqlm = new SQLManager("DataSource=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
-                Server.MapPath("~\\App_Data\\Kakuro.mdf;Integrated Security=True"));
-                sqlm.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
+                SQLManager sqlm = new SQLManager(connStr);
+                if (Session["LevelID"] != null)
+                {
+                    sqlm.CompletedLevel((int)Session["MemberID"], (int)Session["LvlBoardID"]);
+                    // redirect to next level or back to level select
+                    Session["LvlBoardID"] = null;
+                    Session["CurrentBoard"] = null;
+                    Response.Redirect("~/Views/Levels.aspx");
+                }
+                else
+                {
+                    sqlm.CompletedLevel((int)Session["MemberID"], board.Id);
+                    Session["BoardGen"] = null;
+                    Session["CurrentBoard"] = null;
+                    Response.Redirect("~/Views/Configurations.aspx");
+                }
+            }
+        }
 
-                // redirect to next level or back to level select
-                Session["LvlBoardID"] = null;
-                Response.Redirect("~/Views/Levels.aspx");
+        private void txtCell_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+
+            string[] parts = txt.ID.Split('_');
+            int x = int.Parse(parts[1]);
+            int y = int.Parse(parts[2]);
+
+            int.TryParse(txt.Text, out int newValue);
+
+            int sessionId = sqlm.FetchSessionID(this.board.Id, (int)Session["MemberID"]);
+
+            sqlm.SaveCell(sessionId, x, y, newValue);
+
+            var board = (Board)Session["CurrentBoard"];
+            if (board.Grid[x, y] is Entry cell)
+            {
+                cell.CurrentValue = newValue;
             }
         }
 
@@ -95,14 +163,14 @@ namespace Kakuro
                             ID = $"cell_{j}_{i}",
                             CssClass = "form-control input-cell",
                             MaxLength = 1,
-                            // Persist value if it's already in the entry
-                            Text = entryCell.CurrentValue != 0 ? entryCell.CurrentValue.ToString() : ""
+                            Text = entryCell.CurrentValue != 0 ? entryCell.CurrentValue.ToString() : "",
+                            AutoPostBack = true,
                         };
+                        txt.TextChanged += new EventHandler(txtCell_TextChanged);
                         tableCell.Controls.Add(txt);
                     }
                     else if (cell is Clue clueCell)
                     {
-                        // The Panel renders as a <div> in the browser
                         Panel clueDiv = new Panel { CssClass = "clue-container" };
 
                         if (clueCell.VerticalClue.HasValue)
@@ -129,7 +197,7 @@ namespace Kakuro
                     else
                     {
                         tableCell.CssClass = "empty-cell bg-dark";
-                        tableCell.BackColor = System.Drawing.Color.FromArgb(30, 41, 59); // Matches slate-800
+                        tableCell.BackColor = System.Drawing.Color.FromArgb(30, 41, 59);
                     }
 
                     row.Cells.Add(tableCell);
@@ -138,6 +206,7 @@ namespace Kakuro
 
             }
         }
+
 
     }
 }
